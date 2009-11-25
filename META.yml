@@ -1,0 +1,61 @@
+---
+abstract: 'A modern git web viewer'
+author:
+  - 'Dan Brook <broq@cpan.org>'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+  Test::More: 0.88
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
+distribution_type: module
+generated_by: 'Module::Install version 0.91'
+license: gpl2
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Gitalist
+no_index:
+  directory:
+    - inc
+    - t
+requires:
+  CGI: 0
+  Catalyst::Action::RenderView: 0
+  Catalyst::Component::InstancePerContext: 0
+  Catalyst::Plugin::ConfigLoader: 0
+  Catalyst::Plugin::StackTrace: 0
+  Catalyst::Plugin::Static::Simple: 0
+  Catalyst::Plugin::Unicode::Encoding: 0
+  Catalyst::Runtime: 5.80014
+  Catalyst::View::TT: 0
+  Config::General: 0
+  DateTime: 0
+  DateTime::Format::Mail: 0
+  File::Copy::Recursive: 0
+  File::Stat::ModeString: 0
+  File::Which: 0
+  Git::PurePerl: 0.43
+  HTML::Entities: 0
+  IPC::Run: 0
+  List::MoreUtils: 0
+  Moose: 0
+  Moose::Autobox: 0
+  MooseX::Declare: 0
+  MooseX::Types: 0
+  MooseX::Types::Common: 0
+  MooseX::Types::Path::Class: 0
+  Path::Class: 0.17
+  Sub::Exporter: 0
+  Syntax::Highlight::Engine::Kate: 0
+  Sys::Hostname: 0
+  Template: 0
+  Template::Plugin::Cycle: 0
+  Template::Provider::Encoding: 0
+  XML::Atom: 0
+  XML::OPML::SimpleGen: 0
+  XML::RSS: 0
+  aliased: 0
+  namespace::autoclean: 0
+resources:
+  license: http://opensource.org/licenses/gpl-2.0.php
+version: 0.000000_01
