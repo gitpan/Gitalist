@@ -18,6 +18,7 @@ inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Gitalist.pm
 lib/Gitalist/Controller/Root.pm
+lib/Gitalist/Faq.pod
 lib/Gitalist/Git/HasUtils.pm
 lib/Gitalist/Git/Object.pm
 lib/Gitalist/Git/Object/Blob.pm
@@ -29,6 +30,7 @@ lib/Gitalist/Git/Project.pm
 lib/Gitalist/Git/Repo.pm
 lib/Gitalist/Git/Util.pm
 lib/Gitalist/Model/GitRepos.pm
+lib/Gitalist/Script/FastCGI.pm
 lib/Gitalist/View/Default.pm
 lib/Gitalist/View/SyntaxHighlight.pm
 Makefile.PL
@@ -43,6 +45,7 @@ root/_diff_tree.tt2
 root/_footer_feeds.tt2
 root/_header_feeds.tt2
 root/_heads.tt2
+root/_history.tt2
 root/_log_pager.tt2
 root/_refs.tt2
 root/_shortlog.tt2
@@ -62,6 +65,7 @@ root/git-logo.png
 root/gitweb.css
 root/gitweb.tt2
 root/heads.tt2
+root/history.tt2
 root/index.tt2
 root/log.tt2
 root/logo.png

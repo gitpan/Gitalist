@@ -16,8 +16,7 @@ author 'Dan Brook <broq@cpan.org>';
 
 license 'gpl2';
 
-# Want trunk for FCGI to work correctly..
-requires 'Catalyst::Runtime' => '5.80014';
+requires 'Catalyst::Runtime' => '5.8001402';
 requires 'Catalyst::Plugin::ConfigLoader';
 requires 'Catalyst::Plugin::StackTrace';
 requires 'Catalyst::Plugin::Static::Simple';
@@ -65,6 +64,9 @@ author_requires 'Test::Pod' => '1.14';
 author_requires 'Test::Pod::Coverage' => '1.04';
 
 test_requires 'Test::More' => '0.88';
+
+resources bugtracker => 'http://github.com/broquaint/Gitalist/issues';
+resources repository => 'git://github.com/broquaint/Gitalist.git';
 
 catalyst;
 
