@@ -60,4 +60,4 @@ resources:
   bugtracker: http://github.com/broquaint/Gitalist/issues
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://github.com/broquaint/Gitalist.git
-version: 0.000000_02
+version: 0.000001
