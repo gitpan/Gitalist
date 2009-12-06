@@ -30,7 +30,10 @@ lib/Gitalist/Git/Project.pm
 lib/Gitalist/Git/Repo.pm
 lib/Gitalist/Git/Util.pm
 lib/Gitalist/Model/GitRepos.pm
+lib/Gitalist/Script/CGI.pm
 lib/Gitalist/Script/FastCGI.pm
+lib/Gitalist/Script/Server.pm
+lib/Gitalist/ScriptRole.pm
 lib/Gitalist/View/Default.pm
 lib/Gitalist/View/SyntaxHighlight.pm
 Makefile.PL
@@ -167,4 +170,5 @@ t/lib/repositories/repo1/objects/pack/.gitignore
 t/lib/repositories/repo1/refs/heads/branch1
 t/lib/repositories/repo1/refs/heads/master
 t/lib/repositories/working/README
+t/scripts.t
 t/view_Default.t
