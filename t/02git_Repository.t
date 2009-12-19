@@ -3,21 +3,37 @@ use warnings;
 use FindBin qw/$Bin/;
 use Test::More qw/no_plan/;
 use Test::Exception;
+use Test::utf8;
+use Encode qw/decode_utf8/;
 use Data::Dumper;
 
-BEGIN { use_ok 'Gitalist::Git::Project' }
+BEGIN {
+    # Mocking to allow testing regardless of the user's locale
+    require I18N::Langinfo;
+    no warnings 'redefine';
+    *I18N::Langinfo::langinfo = sub($) {
+        return "UTF-8" if $_[0] == I18N::Langinfo::CODESET();
+    };
+    *CORE::GLOBAL::getpwuid = sub {
+        wantarray
+            ? ("test", "x", "1000", "1000", "", "", "T\x{c3}\x{a9}st", "/home/test", "/bin/bash")
+            : "test";
+    };
+}
+
+BEGIN { use_ok 'Gitalist::Git::Repository' }
 
 dies_ok {
-    my $proj = Gitalist::Git::Project->new();
-} 'New project with no args';
+    my $proj = Gitalist::Git::Repository->new();
+} 'New repository with no args';
 
 use Path::Class;
 my $gitdir = dir("$Bin/lib/repositories/repo1");
 
-my $proj = Gitalist::Git::Project->new($gitdir);
-isa_ok($proj, 'Gitalist::Git::Project');
-is($proj->path, $gitdir, 'project path is set');
-isa_ok($proj->path, 'Path::Class::Dir', 'project path');
+my $proj = Gitalist::Git::Repository->new($gitdir);
+isa_ok($proj, 'Gitalist::Git::Repository');
+is($proj->path, $gitdir, 'repository path is set');
+isa_ok($proj->path, 'Path::Class::Dir', 'repository path');
 is($proj->name, qw/repo1/, 'repository name is set');
 is($proj->description, qq/some test repository/, 'repository description loaded');
 isa_ok($proj->last_change, 'DateTime', 'last_change');
@@ -59,3 +75,7 @@ like($proj->head_hash('HEAD'), qr/^([0-9a-fA-F]{40})$/, 'head_hash');
     isa_ok($tree[0], 'Gitalist::Git::Object', 'tree element 0');
 }
 
+my $owner = $proj->owner;
+is_flagged_utf8($owner, "Owner name is flagged as utf8");
+is_sane_utf8($owner, "Owner name is not double-encoded");
+is($owner, decode_utf8("T\x{c3}\x{a9}st"),  "Owner name is correct");

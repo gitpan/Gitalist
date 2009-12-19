@@ -1,13 +1,16 @@
 use MooseX::Declare;
 
-class Gitalist::Git::Project with Gitalist::Git::HasUtils {
+class Gitalist::Git::Repository with Gitalist::Git::HasUtils {
     # FIXME, use Types::Path::Class and coerce
     use MooseX::Types::Common::String qw/NonEmptySimpleStr/;
     use MooseX::Types::Path::Class qw/Dir/;
     use MooseX::Types::Moose qw/Str Maybe Bool HashRef ArrayRef/;
+    use Gitalist::Git::Types qw/SHA1/;
     use Moose::Autobox;
     use List::MoreUtils qw/any zip/;
     use DateTime;
+    use Encode qw/decode/;
+    use I18N::Langinfo qw/langinfo CODESET/;
     use Gitalist::Git::Object::Blob;
     use Gitalist::Git::Object::Tree;
     use Gitalist::Git::Object::Commit;
@@ -16,7 +19,7 @@ class Gitalist::Git::Project with Gitalist::Git::HasUtils {
     our $SHA1RE = qr/[0-9a-fA-F]{40}/;
 
     around BUILDARGS (ClassName $class: Dir $dir) {
-        # Allows us to be called as Project->new($dir)
+        # Allows us to be called as Repository->new($dir)
         # Last path component becomes $self->name
         # Full path to git objects becomes $self->path
         my $name = $dir->dir_list(-1);
@@ -79,21 +82,21 @@ class Gitalist::Git::Project with Gitalist::Git::HasUtils {
         return $sha1;
     }
 
-    method list_tree (Str $sha1?) {
+    method list_tree (SHA1 $sha1?) {
         $sha1 ||= $self->head_hash;
         my $object = $self->get_object($sha1);
         return @{$object->tree};
     }
 
     method get_object (NonEmptySimpleStr $sha1) {
-        unless ( $self->_is_valid_rev($sha1) ) {
+        unless (is_SHA1($sha1)) {
             $sha1 = $self->head_hash($sha1);
         }
         my $type = $self->run_cmd('cat-file', '-t', $sha1);
         chomp($type);
         my $class = 'Gitalist::Git::Object::' . ucfirst($type);
         $class->new(
-            project => $self,
+            repository => $self,
             sha1 => $sha1,
             type => $type,
         );
@@ -121,7 +124,7 @@ class Gitalist::Git::Project with Gitalist::Git::HasUtils {
         $sha1 = $self->head_hash($sha1)
             if !$sha1 || $sha1 !~ $SHA1RE;
 
-	my @search_opts;
+        my @search_opts;
         if ($search) {
             $search->{type} = 'grep'
                 if $search->{type} eq 'commit';
@@ -224,7 +227,7 @@ class Gitalist::Git::Project with Gitalist::Git::HasUtils {
     ## BUILDERS
     method _build_util {
         Gitalist::Git::Util->new(
-            project => $self,
+            repository => $self,
         );
     }
 
@@ -238,7 +241,7 @@ class Gitalist::Git::Project with Gitalist::Git::HasUtils {
     }
 
     method _build_owner {
-        my ($gecos, $name) = (getpwuid $self->path->stat->uid)[6,0];
+        my ($gecos, $name) = map { decode(langinfo(CODESET), $_) } (getpwuid $self->path->stat->uid)[6,0];
         $gecos =~ s/,+$//;
         return length($gecos) ? $gecos : $name;
     }
@@ -281,12 +284,12 @@ class Gitalist::Git::Project with Gitalist::Git::HasUtils {
         my @revlines = $self->run_cmd_list('for-each-ref',
           '--sort=-creatordate',
           '--format=%(objectname) %(objecttype) %(refname) %(*objectname) %(*objecttype) %(subject)%00%(creator)',
-	  'refs/tags'
+          'refs/tags'
         );
         my @ret;
         for my $line (@revlines) {
             my($refinfo, $creatorinfo) = split /\0/, $line;
-	    my($rev, $type, $name, $refid, $reftype, $title) = split(' ', $refinfo, 6);
+            my($rev, $type, $name, $refid, $reftype, $title) = split(' ', $refinfo, 6);
             my($creator, $epoch, $tz) = ($creatorinfo =~ /^(.*) ([0-9]+) (.*)$/);
             $name =~ s!^refs/tags/!!;
 
@@ -304,9 +307,9 @@ class Gitalist::Git::Project with Gitalist::Git::HasUtils {
     }
 
     method _build_references {
-    	# 5dc01c595e6c6ec9ccda4f6f69c131c0dd945f8c refs/tags/v2.6.11
-    	# c39ae07f393806ccf406ef966e9a15afc43cc36a refs/tags/v2.6.11^{}
-    	my @reflist = $self->run_cmd_list(qw(show-ref --dereference))
+        # 5dc01c595e6c6ec9ccda4f6f69c131c0dd945f8c refs/tags/v2.6.11
+        # c39ae07f393806ccf406ef966e9a15afc43cc36a refs/tags/v2.6.11^{}
+        my @reflist = $self->run_cmd_list(qw(show-ref --dereference))
             or return;
         my %refs;
         for (@reflist) {
@@ -318,14 +321,10 @@ class Gitalist::Git::Project with Gitalist::Git::HasUtils {
     }
 
     ## Private methods
-    method _is_valid_rev (Str $rev) {
-        return ($rev =~ /^($SHA1RE)$/);
-    }
-
     method _parse_rev_list ($output) {
         return
             map  $self->get_gpp_object($_),
-                grep $self->_is_valid_rev($_),
+                grep is_SHA1($_),
                     map  split(/\n/, $_, 6), split /\0/, $output;
     }
 
@@ -335,27 +334,27 @@ __END__
 
 =head1 NAME
 
-Gitalist::Git::Project - Model of a git repository
+Gitalist::Git::Repository - Model of a git repository
 
 =head1 SYNOPSIS
 
     my $gitrepo = dir('/repo/base/Gitalist');
-    my $project = Gitalist::Git::Project->new($gitrepo);
-     $project->name;        # 'Gitalist'
-     $project->path;        # '/repo/base/Gitalist/.git'
-     $project->description; # 'Unnamed repository.'
+    my $repository = Gitalist::Git::Repository->new($gitrepo);
+     $repository->name;        # 'Gitalist'
+     $repository->path;        # '/repo/base/Gitalist/.git'
+     $repository->description; # 'Unnamed repository.'
 
 =head1 DESCRIPTION
 
 This class models a git repository, referred to in Gitalist
-as a "Project".
+as a "Repository".
 
 
 =head1 ATTRIBUTES
 
 =head2 name
 
-The name of the Project.  If unspecified, this will be derived from the path to the git repository.
+The name of the Repository.  If unspecified, this will be derived from the path to the git repository.
 
 =head2 path
 

@@ -5,10 +5,11 @@ author:
 build_requires:
   ExtUtils::MakeMaker: 6.42
   Test::More: 0.88
+  Test::utf8: 0.02
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.910'
+generated_by: 'Module::Install version 0.91'
 license: gpl2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -18,6 +19,54 @@ no_index:
   directory:
     - inc
     - t
+provides:
+  Gitalist:
+    file: lib/Gitalist.pm
+    version: 0.000004
+  Gitalist::Controller::Root:
+    file: lib/Gitalist/Controller/Root.pm
+  Gitalist::Git::CollectionOfRepositories:
+    file: lib/Gitalist/Git/CollectionOfRepositories.pm
+  Gitalist::Git::CollectionOfRepositories::FromDirectory:
+    file: lib/Gitalist/Git/CollectionOfRepositories/FromDirectory.pm
+  Gitalist::Git::CollectionOfRepositories::FromListOfDirectories:
+    file: lib/Gitalist/Git/CollectionOfRepositories/FromListOfDirectories.pm
+  Gitalist::Git::HasUtils:
+    file: lib/Gitalist/Git/HasUtils.pm
+  Gitalist::Git::Object:
+    file: lib/Gitalist/Git/Object.pm
+  Gitalist::Git::Object::Blob:
+    file: lib/Gitalist/Git/Object/Blob.pm
+  Gitalist::Git::Object::Commit:
+    file: lib/Gitalist/Git/Object/Commit.pm
+  Gitalist::Git::Object::HasTree:
+    file: lib/Gitalist/Git/Object/HasTree.pm
+  Gitalist::Git::Object::Tag:
+    file: lib/Gitalist/Git/Object/Tag.pm
+  Gitalist::Git::Object::Tree:
+    file: lib/Gitalist/Git/Object/Tree.pm
+  Gitalist::Git::Repository:
+    file: lib/Gitalist/Git/Repository.pm
+  Gitalist::Git::Types:
+    file: lib/Gitalist/Git/Types.pm
+  Gitalist::Git::Util:
+    file: lib/Gitalist/Git/Util.pm
+  Gitalist::Model::GitRepos:
+    file: lib/Gitalist/Model/GitRepos.pm
+  Gitalist::Script::CGI:
+    file: lib/Gitalist/Script/CGI.pm
+  Gitalist::Script::FastCGI:
+    file: lib/Gitalist/Script/FastCGI.pm
+  Gitalist::Script::Server:
+    file: lib/Gitalist/Script/Server.pm
+  Gitalist::ScriptRole:
+    file: lib/Gitalist/ScriptRole.pm
+  Gitalist::Utils:
+    file: lib/Gitalist/Utils.pm
+  Gitalist::View::Default:
+    file: lib/Gitalist/View/Default.pm
+  Gitalist::View::SyntaxHighlight:
+    file: lib/Gitalist/View/SyntaxHighlight.pm
 requires:
   CGI: 0
   Catalyst::Action::RenderView: 0
@@ -32,7 +81,6 @@ requires:
   DateTime: 0
   DateTime::Format::Mail: 0
   File::Copy::Recursive: 0
-  File::Stat::ModeString: 0
   File::Which: 0
   Git::PurePerl: 0.43
   HTML::Entities: 0
@@ -60,4 +108,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.000003
+version: 0.000004

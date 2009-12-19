@@ -6,8 +6,8 @@ use Test::Exception;
 use Data::Dumper;
 
 use Path::Class;
-use Gitalist::Git::Project;
-my $project = Gitalist::Git::Project->new(
+use Gitalist::Git::Repository;
+my $repository = Gitalist::Git::Repository->new(
     dir("$Bin/lib/repositories/repo1"),
 );
 
@@ -19,7 +19,7 @@ BEGIN {
     }
 
 my $object = Gitalist::Git::Object::Tree->new(
-    project => $project,
+    repository => $repository,
     sha1 => '729a7c3f6ba5453b42d16a43692205f67fb23bc1',
     type => 'tree',
     file => 'dir1',
@@ -30,19 +30,19 @@ is($object->sha1,'729a7c3f6ba5453b42d16a43692205f67fb23bc1', 'sha1 is correct');
 is($object->type, 'tree', 'type is correct');
 is($object->file, 'dir1', 'file is correct');
 is($object->mode, 16384, 'mode is correct');
-is($object->modestr, 'd---------', "modestr is correct" );
+is($object->modestr, 'drwxr-xr-x', "modestr is correct" );
 is($object->size, 33, "size is correct");
 
 # Create object from sha1.
 my $obj2 = Gitalist::Git::Object::Blob->new(
-    project => $project,
+    repository => $repository,
     sha1 => '5716ca5987cbf97d6bb54920bea6adde242d87e6',
 );
 isa_ok($obj2, 'Gitalist::Git::Object::Blob', 'blob object');
 is($obj2->sha1,'5716ca5987cbf97d6bb54920bea6adde242d87e6', 'sha1 is correct');
 is($obj2->type, 'blob', 'type is correct');
 is($obj2->mode, 0, 'mode is correct');
-is($obj2->modestr, '?---------', "modestr is correct" );
+is($obj2->modestr, '----------', "modestr is correct" );
 is($obj2->content, "bar\n", 'obj2 contents is correct');
 is($obj2->size, 4, "size is correct");
 dies_ok {
@@ -53,7 +53,7 @@ dies_ok {
 } 'comment is an empty string';
 
 my $commit_obj = Gitalist::Git::Object::Commit->new(
-    project => $project,
+    repository => $repository,
     sha1 => '3f7567c7bdf7e7ebf410926493b92d398333116e',
 );
 isa_ok($commit_obj, 'Gitalist::Git::Object::Commit', "commit object");

@@ -19,6 +19,9 @@ inc/Module/Install/WriteAll.pm
 lib/Gitalist.pm
 lib/Gitalist/Controller/Root.pm
 lib/Gitalist/Faq.pod
+lib/Gitalist/Git/CollectionOfRepositories.pm
+lib/Gitalist/Git/CollectionOfRepositories/FromDirectory.pm
+lib/Gitalist/Git/CollectionOfRepositories/FromListOfDirectories.pm
 lib/Gitalist/Git/HasUtils.pm
 lib/Gitalist/Git/Object.pm
 lib/Gitalist/Git/Object/Blob.pm
@@ -26,14 +29,15 @@ lib/Gitalist/Git/Object/Commit.pm
 lib/Gitalist/Git/Object/HasTree.pm
 lib/Gitalist/Git/Object/Tag.pm
 lib/Gitalist/Git/Object/Tree.pm
-lib/Gitalist/Git/Project.pm
-lib/Gitalist/Git/Repo.pm
+lib/Gitalist/Git/Repository.pm
+lib/Gitalist/Git/Types.pm
 lib/Gitalist/Git/Util.pm
 lib/Gitalist/Model/GitRepos.pm
 lib/Gitalist/Script/CGI.pm
 lib/Gitalist/Script/FastCGI.pm
 lib/Gitalist/Script/Server.pm
 lib/Gitalist/ScriptRole.pm
+lib/Gitalist/Utils.pm
 lib/Gitalist/View/Default.pm
 lib/Gitalist/View/SyntaxHighlight.pm
 Makefile.PL
@@ -69,6 +73,7 @@ root/gitweb.css
 root/gitweb.tt2
 root/heads.tt2
 root/history.tt2
+root/inc/syntax_highlight_css.tt2
 root/index.tt2
 root/log.tt2
 root/logo.png
@@ -95,9 +100,9 @@ script/gitalist_fastcgi.pl
 script/gitalist_server.pl
 script/gitalist_test.pl
 t/01app.t
+t/02git_CollectionOfRepositories_FromDirectory.t
 t/02git_object.t
-t/02git_project.t
-t/02git_repo.t
+t/02git_Repository.t
 t/02git_util.t
 t/03legacy_uri.t
 t/author/notabs.t
@@ -120,6 +125,7 @@ t/lib/repositories/bare.git/hooks/prepare-commit-msg.sample
 t/lib/repositories/bare.git/hooks/update.sample
 t/lib/repositories/bare.git/info/exclude
 t/lib/repositories/empty.git/README
+t/lib/repositories/file
 t/lib/repositories/nodescription/config
 t/lib/repositories/nodescription/HEAD
 t/lib/repositories/nodescription/hooks/applypatch-msg

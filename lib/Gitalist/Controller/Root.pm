@@ -1,11 +1,6 @@
 package Gitalist::Controller::Root;
+
 use Moose;
-use namespace::autoclean;
-
-BEGIN { extends 'Catalyst::Controller' }
-
-__PACKAGE__->config->{namespace} = '';
-
 use Moose::Autobox;
 use Sys::Hostname ();
 use XML::Atom::Feed;
@@ -13,17 +8,15 @@ use XML::Atom::Entry;
 use XML::RSS;
 use XML::OPML::SimpleGen;
 
-=head1 NAME
+use Gitalist::Utils qw/ age_string /;
 
-Gitalist::Controller::Root - Root Controller for Gitalist
+use namespace::autoclean;
 
-=head1 DESCRIPTION
+BEGIN { extends 'Catalyst::Controller' }
 
-[enter your description here]
+__PACKAGE__->config->{namespace} = '';
 
-=head1 METHODS
-
-=cut
+sub root : Chained('/') PathPart('') CaptureArgs(0) {}
 
 sub _get_object {
   my($self, $c, $haveh) = @_;
@@ -31,7 +24,7 @@ sub _get_object {
   my $h = $haveh || $c->req->param('h') || '';
   my $f = $c->req->param('f');
 
-  my $m = $c->stash->{Project};
+  my $m = $c->stash->{Repository};
   my $pd = $m->path;
 
   # Either use the provided h(ash) parameter, the f(ile) parameter or just use HEAD.
@@ -47,20 +40,14 @@ sub _get_object {
   return $obj;
 }
 
-=head2 index
-
-Provides the project listing.
-
-=cut
-
-sub index :Path :Args(0) {
+sub index : Chained('base') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
 
   $c->detach($c->req->param('a'))
     if $c->req->param('a');
 
-  my @list = @{ $c->model()->projects };
-  die 'No projects found in '. $c->model->repo_dir
+  my @list = @{ $c->model()->repositories };
+  die 'No repositories found in '. $c->model->repo_dir
     unless @list;
 
   my $search = $c->req->param('s') || '';
@@ -73,16 +60,17 @@ sub index :Path :Args(0) {
 
   $c->stash(
     search_text => $search,
-    projects    => \@list,
+    repositories    => \@list,
     action      => 'index',
   );
 }
 
-sub project_index : Local {
+# FIXME - WTF is this for?
+sub repository_index : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
 
-  my @list = @{ $c->model()->projects };
-  die 'No projects found in '. $c->model->repo_dir
+  my @list = @{ $c->model()->repositories };
+  die 'No repositories found in '. $c->model->repo_dir
     unless @list;
 
   $c->response->content_type('text/plain');
@@ -91,6 +79,11 @@ sub project_index : Local {
   );
   $c->response->status(200);
 }
+# FIXME - maintain compatibility with previous URI
+sub project_index : Chained('base') Args(0) {
+    my ( $self, $c) = @_;
+    $c->detach('repository_index');
+}
 
 =head2 summary
 
@@ -98,20 +91,20 @@ A summary of what's happening in the repo.
 
 =cut
 
-sub summary : Local {
+sub summary : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
-  my $project = $c->stash->{Project};
-  $c->detach('error_404') unless $project;
+  my $repository = $c->stash->{Repository};
+  $c->detach('error_404') unless $repository;
   my $commit = $self->_get_object($c);
-  my @heads  = @{$project->heads};
+  my @heads  = @{$repository->heads};
   my $maxitems = Gitalist->config->{paging}{summary} || 10;
   $c->stash(
     commit    => $commit,
-    log_lines => [$project->list_revs(
+    log_lines => [$repository->list_revs(
         sha1 => $commit->sha1,
         count => $maxitems,
     )],
-    refs      => $project->references,
+    refs      => $repository->references,
     heads     => [ @heads[0 .. ($#heads < $maxitems ? $#heads : $maxitems)] ],
     action    => 'summary',
   );
@@ -123,12 +116,12 @@ The current list of heads (aka branches) in the repo.
 
 =cut
 
-sub heads : Local {
+sub heads : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
-  my $project = $c->stash->{Project};
+  my $repository = $c->stash->{Repository};
   $c->stash(
     commit => $self->_get_object($c),
-    heads  => $project->heads,
+    heads  => $repository->heads,
     action => 'heads',
   );
 }
@@ -139,54 +132,61 @@ The current list of tags in the repo.
 
 =cut
 
-sub tags : Local {
+sub tags : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
-  my $project = $c->stash->{Project};
+  my $repository = $c->stash->{Repository};
   $c->stash(
     commit => $self->_get_object($c),
-    tags   => $project->tags,
+    tags   => $repository->tags,
     action => 'tags',
   );
 }
 
-sub blame : Local {
+sub blame : Chained('base') Args(0) {
   my($self, $c) = @_;
 
-  my $project = $c->stash->{Project};
+  my $repository = $c->stash->{Repository};
   my $h  = $c->req->param('h')
-       || $project->hash_by_path($c->req->param('hb'), $c->req->param('f'))
+       || $repository->hash_by_path($c->req->param('hb'), $c->req->param('f'))
        || die "No file or sha1 provided.";
   my $hb = $c->req->param('hb')
-       || $project->head_hash
+       || $repository->head_hash
        || die "Couldn't discern the corresponding head.";
   my $filename = $c->req->param('f') || '';
 
+  my $blame = $repository->get_object($hb)->blame($filename);
   $c->stash(
-    blame    => $project->get_object($hb)->blame($filename),
-    head     => $project->get_object($hb),
+    blame    => $blame,
+    head     => $repository->get_object($hb),
     filename => $filename,
+
+    # XXX Hack hack hack, see View::SyntaxHighlight
+    language => ($filename =~ /\.p[lm]$/i ? 'Perl' : ''),
+    blob     => join("\n", map $_->{line}, @$blame),
   );
-  
+
+  $c->forward('View::SyntaxHighlight')
+    unless $c->stash->{no_wrapper};
 }
 
 sub _blob_objs {
   my ( $self, $c ) = @_;
-  my $project = $c->stash->{Project};
+  my $repository = $c->stash->{Repository};
   my $h  = $c->req->param('h')
-       || $project->hash_by_path($c->req->param('hb'), $c->req->param('f'))
+       || $repository->hash_by_path($c->req->param('hb'), $c->req->param('f'))
        || die "No file or sha1 provided.";
   my $hb = $c->req->param('hb')
-       || $project->head_hash
+       || $repository->head_hash
        || die "Couldn't discern the corresponding head.";
 
   my $filename = $c->req->param('f') || '';
 
-  my $blob = $project->get_object($h);
-  $blob = $project->get_object(
-    $project->hash_by_path($h || $hb, $filename)
+  my $blob = $repository->get_object($h);
+  $blob = $repository->get_object(
+    $repository->hash_by_path($h || $hb, $filename)
   ) if $blob->type ne 'blob';
 
-  return $blob, $project->get_object($hb), $filename;
+  return $blob, $repository->get_object($hb), $filename;
 }
 
 =head2 blob
@@ -195,7 +195,7 @@ The blob action i.e the contents of a file.
 
 =cut
 
-sub blob : Local {
+sub blob : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
 
   my($blob, $head, $filename) = $self->_blob_objs($c);
@@ -204,7 +204,7 @@ sub blob : Local {
     head     => $head,
     filename => $filename,
     # XXX Hack hack hack, see View::SyntaxHighlight
-    language => ($filename =~ /\.p[lm]$/ ? 'Perl' : ''),
+    language => ($filename =~ /\.p[lm]$/i ? 'Perl' : ''),
     action   => 'blob',
   );
 
@@ -218,7 +218,7 @@ The plain text version of blob, where file is rendered as is.
 
 =cut
 
-sub blob_plain : Local {
+sub blob_plain : Chained('base') Args(0) {
   my($self, $c) = @_;
 
   my($blob) = $self->_blob_objs($c);
@@ -233,7 +233,7 @@ The plain text version of blobdiff.
 
 =cut
 
-sub blobdiff_plain : Local {
+sub blobdiff_plain : Chained('base') Args(0) {
   my($self, $c) = @_;
 
   $c->stash(no_wrapper => 1);
@@ -248,12 +248,12 @@ Exposes a given diff of a blob.
 
 =cut
 
-sub blobdiff : Local {
+sub blobdiff : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
   my $commit = $self->_get_object($c, $c->req->param('hb'));
   my $filename = $c->req->param('f')
               || croak("No file specified!");
-  my($tree, $patch) = $c->stash->{Project}->diff(
+  my($tree, $patch) = $c->stash->{Repository}->diff(
     commit => $commit,
     patch  => 1,
     parent => $c->req->param('hpb') || undef,
@@ -279,14 +279,14 @@ Exposes a given commit.
 
 =cut
 
-sub commit : Local {
+sub commit : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
-  my $project = $c->stash->{Project};
+  my $repository = $c->stash->{Repository};
   my $commit = $self->_get_object($c);
   $c->stash(
       commit      => $commit,
-      diff_tree   => ($project->diff(commit => $commit))[0],
-      refs      => $project->references,
+      diff_tree   => ($repository->diff(commit => $commit))[0],
+      refs      => $repository->references,
       action      => 'commit',
   );
 }
@@ -297,10 +297,10 @@ Exposes a given diff of a commit.
 
 =cut
 
-sub commitdiff : Local {
+sub commitdiff : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
   my $commit = $self->_get_object($c);
-  my($tree, $patch) = $c->stash->{Project}->diff(
+  my($tree, $patch) = $c->stash->{Repository}->diff(
       commit => $commit,
       parent => $c->req->param('hp') || undef,
       patch  => 1,
@@ -319,7 +319,7 @@ sub commitdiff : Local {
     unless $c->stash->{no_wrapper};
 }
 
-sub commitdiff_plain : Local {
+sub commitdiff_plain : Chained('base') Args(0) {
   my($self, $c) = @_;
 
   $c->stash(no_wrapper => 1);
@@ -334,10 +334,10 @@ Expose an abbreviated log of a given sha1.
 
 =cut
 
-sub shortlog : Local {
+sub shortlog : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
 
-  my $project  = $c->stash->{Project};
+  my $repository  = $c->stash->{Repository};
   my $commit   = $self->_get_object($c, $c->req->param('hb'));
   my $filename = $c->req->param('f') || '';
 
@@ -353,8 +353,8 @@ sub shortlog : Local {
 
   $c->stash(
       commit    => $commit,
-      log_lines => [$project->list_revs(%logargs)],
-      refs      => $project->references,
+      log_lines => [$repository->list_revs(%logargs)],
+      refs      => $repository->references,
       page      => $page,
       filename  => $filename,
       action    => 'shortlog',
@@ -366,19 +366,20 @@ sub shortlog : Local {
 Calls shortlog internally. Perhaps that should be reversed ...
 
 =cut
-sub log : Local {
+
+sub log : Chained('base') Args(0) {
     $_[0]->shortlog($_[1]);
     $_[1]->stash->{action} = 'log';
 }
 
 # For legacy support.
-sub history : Local {
+sub history : Chained('base') Args(0) {
     my ( $self, $c ) = @_;
     $self->shortlog($c);
-    my $project = $c->stash->{Project};
-    my $file = $project->get_object(
-        $project->hash_by_path(
-            $project->head_hash,
+    my $repository = $c->stash->{Repository};
+    my $file = $repository->get_object(
+        $repository->hash_by_path(
+            $repository->head_hash,
             $c->stash->{filename}
         )
     );
@@ -393,19 +394,19 @@ The tree of a given commit.
 
 =cut
 
-sub tree : Local {
+sub tree : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
-  my $project = $c->stash->{Project};
+  my $repository = $c->stash->{Repository};
   my $commit  = $self->_get_object($c, $c->req->param('hb'));
   my $filename = $c->req->param('f') || '';
   my $tree    = $filename
-    ? $project->get_object($project->hash_by_path($commit->sha1, $filename))
-    : $project->get_object($commit->tree_sha1)
+    ? $repository->get_object($repository->hash_by_path($commit->sha1, $filename))
+    : $repository->get_object($commit->tree_sha1)
   ;
   $c->stash(
       commit    => $commit,
       tree      => $tree,
-      tree_list => [$project->list_tree($tree->sha1)],
+      tree_list => [$repository->list_tree($tree->sha1)],
       path      => $c->req->param('f') || '',
       action    => 'tree',
   );
@@ -417,9 +418,9 @@ Expose the local reflog. This may go away.
 
 =cut
 
-sub reflog : Local {
+sub reflog : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
-  my @log = $c->stash->{Project}->reflog(
+  my @log = $c->stash->{Repository}->reflog(
       '--since=yesterday'
   );
 
@@ -435,10 +436,10 @@ The action for the search form.
 
 =cut
 
-sub search : Local {
+sub search : Chained('base') Args(0) {
   my($self, $c) = @_;
   $c->stash(current_action => 'GitRepos');
-  my $project = $c->stash->{Project};
+  my $repository = $c->stash->{Repository};
   my $commit  = $self->_get_object($c);
   # Lifted from /shortlog.
   my %logargs = (
@@ -454,7 +455,7 @@ sub search : Local {
 
   $c->stash(
       commit  => $commit,
-      results => [$project->list_revs(%logargs)],
+      results => [$repository->list_revs(%logargs)],
       action  => 'search',
 	  # This could be added - page      => $page,
   );
@@ -466,18 +467,18 @@ Provides some help for the search form.
 
 =cut
 
-sub search_help : Local {
+sub search_help : Chained('base') Args(0) {
     my ($self, $c) = @_;
     $c->stash(template => 'search_help.tt2');
 }
 
 =head2 atom
 
-Provides an atom feed for a given project.
+Provides an atom feed for a given repository.
 
 =cut
 
-sub atom : Local {
+sub atom : Chained('base') Args(0) {
   my($self, $c) = @_;
 
   my $feed = XML::Atom::Feed->new;
@@ -486,15 +487,15 @@ sub atom : Local {
   $feed->title($host . ' - ' . Gitalist->config->{name});
   $feed->updated(~~DateTime->now);
 
-  my $project = $c->stash->{Project};
+  my $repository = $c->stash->{Repository};
   my %logargs = (
-      sha1   => $project->head_hash,
+      sha1   => $repository->head_hash,
       count  => Gitalist->config->{paging}{log} || 25,
       ($c->req->param('f') ? (file => $c->req->param('f')) : ())
   );
 
   my $mk_title = $c->stash->{short_cmt};
-  for my $commit ($project->list_revs(%logargs)) {
+  for my $commit ($repository->list_revs(%logargs)) {
     my $entry = XML::Atom::Entry->new;
     $entry->title( $mk_title->($commit->comment) );
     $entry->id($c->uri_for('commit', {h=>$commit->sha1}));
@@ -510,32 +511,32 @@ sub atom : Local {
 
 =head2 rss
 
-Provides an RSS feed for a given project.
+Provides an RSS feed for a given repository.
 
 =cut
 
-sub rss : Local {
+sub rss : Chained('base') Args(0) {
   my ($self, $c) = @_;
 
-  my $project = $c->stash->{Project};
+  my $repository = $c->stash->{Repository};
 
   my $rss = XML::RSS->new(version => '2.0');
   $rss->channel(
     title          => lc(Sys::Hostname::hostname()) . ' - ' . Gitalist->config->{name},
-    link           => $c->uri_for('summary', {p=>$project->name}),
+    link           => $c->uri_for('summary', {p=>$repository->name}),
     language       => 'en',
-    description    => $project->description,
+    description    => $repository->description,
     pubDate        => DateTime->now,
     lastBuildDate  => DateTime->now,
   );
 
   my %logargs = (
-      sha1   => $project->head_hash,
+      sha1   => $repository->head_hash,
       count  => Gitalist->config->{paging}{log} || 25,
       ($c->req->param('f') ? (file => $c->req->param('f')) : ())
   );
   my $mk_title = $c->stash->{short_cmt};
-  for my $commit ($project->list_revs(%logargs)) {
+  for my $commit ($repository->list_revs(%logargs)) {
     # XXX Needs work ....
     $rss->add_item(
         title       => $mk_title->($commit->comment),
@@ -549,15 +550,15 @@ sub rss : Local {
   $c->response->status(200);
 }
 
-sub opml : Local {
+sub opml : Chained('base') Args(0) {
   my($self, $c) = @_;
 
   my $opml = XML::OPML::SimpleGen->new();
 
   $opml->head(title => lc(Sys::Hostname::hostname()) . ' - ' . Gitalist->config->{name});
 
-  my @list = @{ $c->model()->projects };
-  die 'No projects found in '. $c->model->repo_dir
+  my @list = @{ $c->model()->repositories };
+  die 'No repositories found in '. $c->model->repo_dir
     unless @list;
 
   for my $proj ( @list ) {
@@ -578,7 +579,7 @@ A raw patch for a given commit.
 
 =cut
 
-sub patch : Local {
+sub patch : Chained('base') Args(0) {
     my ($self, $c) = @_;
     $c->detach('patches', [1]);
 }
@@ -589,7 +590,7 @@ The patcheset for a given commit ???
 
 =cut
 
-sub patches : Local {
+sub patches : Chained('base') Args(0) {
     my ($self, $c, $count) = @_;
     $count ||= Gitalist->config->{patches}{max};
     my $commit = $self->_get_object($c);
@@ -606,12 +607,12 @@ Provides a snapshot of a given commit.
 
 =cut
 
-sub snapshot : Local {
+sub snapshot : Chained('base') Args(0) {
     my ($self, $c) = @_;
     my $format = $c->req->param('sf') || 'tgz';
     die unless $format;
     my $sha1 = $c->req->param('h') || $self->_get_object($c)->sha1;
-    my @snap = $c->stash->{Project}->snapshot(
+    my @snap = $c->stash->{Repository}->snapshot(
         sha1 => $sha1,
         format => $format
     );
@@ -621,28 +622,23 @@ sub snapshot : Local {
     $c->response->body($snap[1]);
 }
 
-=head2 auto
 
-Populate the header and footer. Perhaps not the best location.
-
-=cut
-
-sub auto : Private {
+sub base : Chained('/root') PathPart('') CaptureArgs(0) {
   my($self, $c) = @_;
 
-  my $project = $c->req->param('p');
-  if (defined $project) {
+  my $repository = $c->req->param('p');
+  if (defined $repository) {
     eval {
-      $c->stash(Project => $c->model('GitRepos')->project($project));
+      $c->stash(Repository => $c->model('GitRepos')->get_repository($repository));
     };
     if ($@) {
       $c->detach('/error_404');
     }
   }
 
-  my $a_project = $c->stash->{Project} || $c->model()->projects->[0];
+  my $a_repository = $c->stash->{Repository} || $c->model()->repositories->[0];
   $c->stash(
-    git_version => $a_project->run_cmd('--version'),
+    git_version => $a_repository->run_cmd('--version'),
     version     => $Gitalist::VERSION,
 
     # XXX Move these to a plugin!
@@ -662,62 +658,18 @@ sub auto : Private {
   );
 }
 
-=head2 end
-
-Attempt to render a view, if needed.
-
-=cut
-
 sub end : ActionClass('RenderView') {
     my ($self, $c) = @_;
-    # Give project views the current HEAD.
-    if ($c->stash->{Project}) {
-        $c->stash->{HEAD} = $c->stash->{Project}->head_hash;
+    # Give repository views the current HEAD.
+    if ($c->stash->{Repository}) {
+        $c->stash->{HEAD} = $c->stash->{Repository}->head_hash;
     }
 }
 
-sub error_404 :Private {
+sub error_404 : Action {
     my ($self, $c) = @_;
     $c->response->status(404);
     $c->response->body('Page not found');
-}
-
-sub age_string {
-  my $age = shift;
-  my $age_str;
-
-  if ( $age > 60 * 60 * 24 * 365 * 2 ) {
-    $age_str  = ( int $age / 60 / 60 / 24 / 365 );
-    $age_str .= " years ago";
-  }
-  elsif ( $age > 60 * 60 * 24 * ( 365 / 12 ) * 2 ) {
-    $age_str  = int $age / 60 / 60 / 24 / ( 365 / 12 );
-    $age_str .= " months ago";
-  }
-  elsif ( $age > 60 * 60 * 24 * 7 * 2 ) {
-    $age_str  = int $age / 60 / 60 / 24 / 7;
-    $age_str .= " weeks ago";
-  }
-  elsif ( $age > 60 * 60 * 24 * 2 ) {
-    $age_str  = int $age / 60 / 60 / 24;
-    $age_str .= " days ago";
-  }
-  elsif ( $age > 60 * 60 * 2 ) {
-    $age_str  = int $age / 60 / 60;
-    $age_str .= " hours ago";
-  }
-  elsif ( $age > 60 * 2 ) {
-    $age_str  = int $age / 60;
-    $age_str .= " min ago";
-  }
-  elsif ( $age > 2 ) {
-    $age_str  = int $age;
-    $age_str .= " sec ago";
-  }
-  else {
-    $age_str .= " right now";
-  }
-  return $age_str;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -734,7 +686,21 @@ This controller handles all of the root level paths for the application
 
 =head1 METHODS
 
-=head2 age_string
+=head2 root
+
+Root of chained actions
+
+=head2 base
+
+Populate the header and footer. Perhaps not the best location.
+
+=head2 index
+
+Provides the repository listing.
+
+=head2 end
+
+Attempt to render a view, if needed.
 
 =head2 blame
 
@@ -746,7 +712,7 @@ This controller handles all of the root level paths for the application
 
 =head2 opml
 
-=head2 project_index
+=head2 repository_index
 
 =head1 AUTHORS
 

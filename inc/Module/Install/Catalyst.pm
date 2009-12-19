@@ -16,8 +16,7 @@ my $SAFETY = 0;
 
 our @IGNORE =
   qw/Build Build.PL Changes MANIFEST META.yml Makefile.PL Makefile README
-  _build blib lib script t inc .*\.svn \.git _darcs \.bzr \.hg
-  debian build-stamp install-stamp configure-stamp/;
+  _build blib lib script t inc \.svn \.git _darcs \.bzr \.hg/;
 our @CLASSES   = ();
 our $ENGINE    = 'CGI';
 our $CORE      = 0;
@@ -25,7 +24,7 @@ our $MULTIARCH = 0;
 our $SCRIPT    = '';
 our $USAGE     = '';
 
-#line 56
+#line 42
 
 sub catalyst {
     my $self = shift;
@@ -39,7 +38,7 @@ EOF
 EOF
 }
 
-#line 76
+#line 58
 
 sub catalyst_files {
     my $self = shift;
@@ -63,21 +62,21 @@ sub catalyst_files {
     }
 }
 
-#line 104
+#line 84
 
 sub catalyst_ignore_all {
     my ( $self, $ignore ) = @_;
     @IGNORE = @$ignore;
 }
 
-#line 115
+#line 93
 
 sub catalyst_ignore {
     my ( $self, @ignore ) = @_;
     push @IGNORE, @ignore;
 }
 
-#line 124
+#line 102
 
 # Workaround for a namespace conflict
 sub catalyst_par {
@@ -99,42 +98,42 @@ Please run "make catalyst_par" to create the PAR package!
 EOF
 }
 
-#line 148
+#line 126
 
 sub catalyst_par_core {
     my ( $self, $core ) = @_;
     $core ? ( $CORE = $core ) : $CORE++;
 }
 
-#line 157
+#line 135
 
 sub catalyst_par_classes {
     my ( $self, @classes ) = @_;
     push @CLASSES, @classes;
 }
 
-#line 166
+#line 144
 
 sub catalyst_par_engine {
     my ( $self, $engine ) = @_;
     $ENGINE = $engine;
 }
 
-#line 175
+#line 153
 
 sub catalyst_par_multiarch {
     my ( $self, $multiarch ) = @_;
     $multiarch ? ( $MULTIARCH = $multiarch ) : $MULTIARCH++;
 }
 
-#line 184
+#line 162
 
 sub catalyst_par_script {
     my ( $self, $script ) = @_;
     $SCRIPT = $script;
 }
 
-#line 193
+#line 171
 
 sub catalyst_par_usage {
     my ( $self, $usage ) = @_;
@@ -286,6 +285,6 @@ EOF
     return 1;
 }
 
-#line 354
+#line 332
 
 1;

@@ -7,15 +7,15 @@ use Data::Dumper;
 
 BEGIN {
     use_ok 'Gitalist::Git::Util';
-    use_ok 'Gitalist::Git::Project';
+    use_ok 'Gitalist::Git::Repository';
 }
 
 use Path::Class;
 my $gitdir = dir("$Bin/lib/repositories/repo1");
 
-my $proj = Gitalist::Git::Project->new($gitdir);
+my $proj = Gitalist::Git::Repository->new($gitdir);
 my $util = Gitalist::Git::Util->new(
-    project => $proj,
+    repository => $proj,
 );
 isa_ok($util, 'Gitalist::Git::Util');
 

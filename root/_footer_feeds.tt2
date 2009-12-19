@@ -1,4 +1,4 @@
-  [% IF Project %]
+  [% IF Repository %]
     [%-
       has_branch = c.req.param('h').match('^(refs/heads/.*)') || c.req.param('hb').match('^(refs/heads/.*)');
       branch     = has_branch.0 || '';
@@ -28,5 +28,5 @@
       href="[% c.uri_for('opml') %]">OPML</a>
     <a
       class="rss_logo"
-      href="[% c.uri_for('project_index') %]">TXT</a>
+      href="[% c.uri_for('repository_index') %]">TXT</a>
   [% END %]
