@@ -176,5 +176,6 @@ t/lib/repositories/repo1/objects/pack/.gitignore
 t/lib/repositories/repo1/refs/heads/branch1
 t/lib/repositories/repo1/refs/heads/master
 t/lib/repositories/working/README
+t/model_gitrepos.t
 t/scripts.t
 t/view_Default.t
