@@ -9,7 +9,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.910'
+generated_by: 'Module::Install version 0.91'
 license: gpl2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -22,7 +22,25 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.000005
+    version: 0.000006_01
+  Gitalist::ActionRole::FilenameArgs:
+    file: lib/Gitalist/ActionRole/FilenameArgs.pm
+  Gitalist::Controller:
+    file: lib/Gitalist/Controller.pm
+  Gitalist::Controller::Fragment:
+    file: lib/Gitalist/Controller/Fragment.pm
+  Gitalist::Controller::Fragment::Ref:
+    file: lib/Gitalist/Controller/Fragment/Ref.pm
+  Gitalist::Controller::Fragment::Repository:
+    file: lib/Gitalist/Controller/Fragment/Repository.pm
+  Gitalist::Controller::LegacyURI:
+    file: lib/Gitalist/Controller/LegacyURI.pm
+  Gitalist::Controller::OPML:
+    file: lib/Gitalist/Controller/OPML.pm
+  Gitalist::Controller::Ref:
+    file: lib/Gitalist/Controller/Ref.pm
+  Gitalist::Controller::Repository:
+    file: lib/Gitalist/Controller/Repository.pm
   Gitalist::Controller::Root:
     file: lib/Gitalist/Controller/Root.pm
   Gitalist::Git::CollectionOfRepositories:
@@ -51,8 +69,8 @@ provides:
     file: lib/Gitalist/Git/Types.pm
   Gitalist::Git::Util:
     file: lib/Gitalist/Git/Util.pm
-  Gitalist::Model::GitRepos:
-    file: lib/Gitalist/Model/GitRepos.pm
+  Gitalist::Model::CollectionOfRepos:
+    file: lib/Gitalist/Model/CollectionOfRepos.pm
   Gitalist::Script::CGI:
     file: lib/Gitalist/Script/CGI.pm
   Gitalist::Script::FastCGI:
@@ -61,6 +79,14 @@ provides:
     file: lib/Gitalist/Script/Server.pm
   Gitalist::ScriptRole:
     file: lib/Gitalist/ScriptRole.pm
+  Gitalist::URIStructure::Fragment::WithLog:
+    file: lib/Gitalist/URIStructure/Fragment/WithLog.pm
+  Gitalist::URIStructure::Ref:
+    file: lib/Gitalist/URIStructure/Ref.pm
+  Gitalist::URIStructure::Repository:
+    file: lib/Gitalist/URIStructure/Repository.pm
+  Gitalist::URIStructure::WithLog:
+    file: lib/Gitalist/URIStructure/WithLog.pm
   Gitalist::Utils:
     file: lib/Gitalist/Utils.pm
   Gitalist::View::Default:
@@ -71,24 +97,28 @@ requires:
   CGI: 0
   Catalyst::Action::RenderView: 0
   Catalyst::Component::InstancePerContext: 0
+  Catalyst::Controller::ActionRole: 0
   Catalyst::Plugin::ConfigLoader: 0
   Catalyst::Plugin::StackTrace: 0
   Catalyst::Plugin::Static::Simple: 0
+  Catalyst::Plugin::SubRequest: 0.15
   Catalyst::Plugin::Unicode::Encoding: 0
   Catalyst::Runtime: 5.8001402
+  Catalyst::View::Component::SubInclude: 0.07
   Catalyst::View::TT: 0
   Config::General: 0
   DateTime: 0
   DateTime::Format::Mail: 0
   File::Copy::Recursive: 0
   File::Which: 0
-  Git::PurePerl: 0.43
+  Git::PurePerl: 0.46
   HTML::Entities: 0
   IPC::Run: 0
   List::MoreUtils: 0
   Moose: 0
   Moose::Autobox: 0
   MooseX::Declare: 0.32
+  MooseX::MultiMethods: 0.10
   MooseX::Types: 0
   MooseX::Types::Common: 0
   MooseX::Types::Path::Class: 0
@@ -99,13 +129,11 @@ requires:
   Template: 0
   Template::Plugin::Cycle: 0
   Template::Provider::Encoding: 0
-  XML::Atom: 0
-  XML::OPML::SimpleGen: 0
-  XML::RSS: 0
+  Try::Tiny: 0
   aliased: 0
   namespace::autoclean: 0
 resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.000005
+version: 0.000006_01
