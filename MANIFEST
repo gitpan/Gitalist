@@ -109,7 +109,6 @@ root/repository/summary.tt2
 root/repository/tags.tt2
 root/search.tt2
 root/search_help.tt2
-root/static/css/.site.css.swp
 root/static/css/960.css
 root/static/css/blueprint/ie.css
 root/static/css/blueprint/print.css
@@ -119,6 +118,7 @@ root/static/css/site.css
 root/static/css/syntax/Diff.css
 root/static/css/syntax/Perl.css
 root/static/git-favicon.png
+root/static/i/arrow_down_white.gif
 root/static/i/arrow_grey.gif
 root/static/i/arrow_grey_left.gif
 root/static/i/bg.png
@@ -143,6 +143,7 @@ root/static/i/icons/Thumbs.db
 root/static/i/icons/tree.gif
 root/static/i/icons/tree.png
 root/static/i/logo.png
+root/static/js/common.js
 root/wrapper.tt2
 script/gitalist_cgi.pl
 script/gitalist_create.pl
