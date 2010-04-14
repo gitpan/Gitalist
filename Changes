@@ -1,5 +1,8 @@
 This file documents the revision history for Perl extension Gitalist.
 
+0.000006.1 2010-04-14
+	- Documentation fixes for the --repo-dir flag (Dagfinn Ilmari Mannsåker).
+
 0.000006 2010-04-10
 
     - Major frontend redesign, thanks to ranguard and the web designers at
