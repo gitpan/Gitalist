@@ -22,7 +22,7 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.000006.1
+    version: 0.001001
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
   Gitalist::Controller:
@@ -132,10 +132,13 @@ requires:
   Template::Plugin::Cycle: 0
   Template::Provider::Encoding: 0
   Try::Tiny: 0
+  XML::Atom::Feed: 0
+  XML::OPML::SimpleGen: 0
+  XML::RSS: 0
   aliased: 0
   namespace::autoclean: 0
 resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.000006.1
+version: 0.001001
