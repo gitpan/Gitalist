@@ -117,6 +117,7 @@ root/static/css/core.css
 root/static/css/site.css
 root/static/css/syntax/Diff.css
 root/static/css/syntax/Perl.css
+root/static/favicon.ico
 root/static/git-favicon.png
 root/static/i/arrow_down_white.gif
 root/static/i/arrow_grey.gif
@@ -126,6 +127,8 @@ root/static/i/bg_bottom.png
 root/static/i/bg_content.png
 root/static/i/bg_top.png
 root/static/i/buttons/search.png
+root/static/i/favicon.gif
+root/static/i/favicon.png
 root/static/i/icons/attention.png
 root/static/i/icons/blame.png
 root/static/i/icons/blob.png
@@ -134,6 +137,8 @@ root/static/i/icons/button_sha1_invert.png
 root/static/i/icons/commit.png
 root/static/i/icons/diff.png
 root/static/i/icons/diffcurrent.png
+root/static/i/icons/file.png
+root/static/i/icons/folder.png
 root/static/i/icons/fulllog.gif
 root/static/i/icons/history.png
 root/static/i/icons/longlog.png

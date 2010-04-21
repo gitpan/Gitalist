@@ -20,7 +20,7 @@
   [% INCLUDE '_header_feeds.tt2' %]
    
 	<link rel="stylesheet" type="text/css" href="[% c.uri_for('/core.css') %]" />
-	<link rel="shortcut icon" href="[% c.uri_for('/static/git-favicon.png') %]" type="image/png" />
+	<link rel="shortcut icon" href="[% c.uri_for('/static/favicon.ico') %]" />
 	<script type="text/javascript">
 	// FIXME: this should be in an external js file once c.uri_for works in js files
 	function compareDiffs(repo, path){
@@ -44,7 +44,7 @@
 				}
 			}
 		}
-		document.location.href = "[% c.uri_for("/") %]" + repo + "/"+ sha1 + "/diff/" + sha2 + "/" + path;
+		document.location.href = "[% c.uri_for("/") %]" + repo + "/"+ sha2 + "/diff/" + sha1 + "/" + path;
 	}
 	// handles hover sub menus in IE
 	startList = function() {
@@ -146,10 +146,8 @@
 
 				
 				<li id="branch_selector">
-					[%# FIXME: convert to c.uri_for_action  #%]
-					
 					Branches 
-					<select onchange="document.location.href='/[% Repository.name %]/'+this.options[this.selectedIndex].text + '/shortlog';">
+					<select onchange="document.location.href='[% c.uri_for("/") %][% Repository.name %]/'+this.options[this.selectedIndex].text + '/shortlog';">
 						<option value="">HEAD</option>
 					
 					[% FOREACH branch_head IN Repository.heads %]
@@ -180,6 +178,10 @@
 			
 			
 			[%- 
+				
+				#FIXME on a history view of a folder, don't show extra actions in dropdown
+				SET on_file_page = 1;
+				
 				SET actions_list = {
 						"blob" 		=> 1,
 						"raw" 	 	=> 1,
@@ -193,7 +195,7 @@
 									.replace("fancy","")
 									.replace("index","Repositories");
 				action_name_ucfirst = action_name FILTER ucfirst;
-				IF actions_list.$action_name;
+				IF actions_list.$action_name && on_file_page;
 					'<a href="#" id="actions_nav_link"><span>' _ action_name_ucfirst _ '</span></a>';
 				ELSE;
 					action_name_ucfirst;
@@ -210,7 +212,7 @@
 						action_output = action.key FILTER ucfirst;
 						NEXT IF action_output == action_name_ucfirst;	
 						action = action.key;
-						'<li><a href="/' _ c.req.path.replace(action_name, action) _ '">' _ action_output _ '</a></li>';
+						'<li><a href="' _ c.uri_for("/")  _ c.req.path.replace(action_name, action) _ '">' _ action_output _ '</a></li>';
 					END;			
 				'</ul>';
 				END;
@@ -257,7 +259,7 @@
 	[% USE Dumper %]
 	<pre>
 	[% Repository.path %]
-	[%# Dumper.dump(c.req.path) %]
+	[%# Dumper.dump(Commit) %]
 	</pre>
 	
 	</div>
