@@ -1,6 +1,7 @@
 ---
 abstract: 'A modern git web viewer'
 author:
+  - 'AND COPYRIGHT'
   - 'Dan Brook <broq@cpan.org>'
 build_requires:
   ExtUtils::MakeMaker: 6.42
@@ -9,7 +10,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.91'
+generated_by: 'Module::Install version 0.950'
 license: gpl2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -22,7 +23,7 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.001003
+    version: 0.001004
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
   Gitalist::Controller:
@@ -132,13 +133,10 @@ requires:
   Template::Plugin::Cycle: 0
   Template::Provider::Encoding: 0
   Try::Tiny: 0
-  XML::Atom::Feed: 0
-  XML::OPML::SimpleGen: 0
-  XML::RSS: 0
   aliased: 0
   namespace::autoclean: 0
 resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.001003
+version: 0.001004
