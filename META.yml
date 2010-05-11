@@ -10,7 +10,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.950'
+generated_by: 'Module::Install version 0.97'
 license: gpl2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -23,7 +23,7 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.001004
+    version: 0.001005
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
   Gitalist::Controller:
@@ -120,7 +120,7 @@ requires:
   List::MoreUtils: 0
   Moose: 0
   Moose::Autobox: 0
-  MooseX::Declare: 0.32
+  MooseX::Declare: 0.33
   MooseX::MultiMethods: 0.10
   MooseX::Types: 0
   MooseX::Types::Common: 0
@@ -132,6 +132,8 @@ requires:
   Template: 0
   Template::Plugin::Cycle: 0
   Template::Provider::Encoding: 0
+  Test::More: 0.88
+  Test::utf8: 0.02
   Try::Tiny: 0
   aliased: 0
   namespace::autoclean: 0
@@ -139,4 +141,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.001004
+version: 0.001005

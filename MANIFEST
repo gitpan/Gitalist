@@ -62,6 +62,7 @@ root/_header_feeds.tt2
 root/_log_pager.tt2
 root/_refs.tt2
 root/favicon.ico
+root/favicon_gif.ico
 root/fragment/collectionofrepositories.tt2
 root/fragment/ref/blame.tt2
 root/fragment/ref/blob.tt2
