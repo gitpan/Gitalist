@@ -2,6 +2,8 @@ Changes
 gitalist.conf
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
+inc/Module/Install/AuthorRequires.pm
+inc/Module/Install/AuthorTests.pm
 inc/Module/Install/AutoInstall.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
@@ -16,6 +18,9 @@ inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Gitalist.pm
 lib/Gitalist/ActionRole/FilenameArgs.pm
+lib/Gitalist/ContentMangler/Resolver.pm
+lib/Gitalist/ContentMangler/Resolver/Default.pm
+lib/Gitalist/ContentMangler/Transformer/SyntaxHighlight.pm
 lib/Gitalist/Controller.pm
 lib/Gitalist/Controller/Fragment.pm
 lib/Gitalist/Controller/Fragment/Ref.pm
@@ -40,6 +45,7 @@ lib/Gitalist/Git/Repository.pm
 lib/Gitalist/Git/Types.pm
 lib/Gitalist/Git/Util.pm
 lib/Gitalist/Model/CollectionOfRepos.pm
+lib/Gitalist/Model/ContentMangler.pm
 lib/Gitalist/Script/CGI.pm
 lib/Gitalist/Script/FastCGI.pm
 lib/Gitalist/Script/Server.pm
@@ -63,7 +69,6 @@ root/_header_feeds.tt2
 root/_log_pager.tt2
 root/_refs.tt2
 root/favicon.ico
-root/favicon_gif.ico
 root/fragment/collectionofrepositories.tt2
 root/fragment/ref/blame.tt2
 root/fragment/ref/blob.tt2
@@ -109,12 +114,7 @@ root/repository/summary.tt2
 root/repository/tags.tt2
 root/search.tt2
 root/search_help.tt2
-root/static/css/960.css
-root/static/css/blueprint/ie.css
-root/static/css/blueprint/print.css
-root/static/css/blueprint/screen.css
 root/static/css/core.css
-root/static/css/site.css
 root/static/css/syntax/Diff.css
 root/static/css/syntax/Perl.css
 root/static/favicon.ico
@@ -149,8 +149,11 @@ root/static/i/icons/Thumbs.db
 root/static/i/icons/tree.gif
 root/static/i/icons/tree.png
 root/static/i/logo.png
-root/static/js/common.js
+root/static/js/jquery.min.js
+root/static/js/site.js
 root/wrapper.tt2
+script/bootstrap.pl
+script/env
 script/gitalist_cgi.pl
 script/gitalist_create.pl
 script/gitalist_fastcgi.pl
@@ -243,3 +246,4 @@ t/rss.t
 t/script/gitalist_server.pl
 t/scripts.t
 t/view_Default.t
+tags

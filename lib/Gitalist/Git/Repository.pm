@@ -55,7 +55,7 @@ class Gitalist::Git::Repository with Gitalist::Git::HasUtils {
                      is => 'ro',
                      lazy => 1,
                      default => sub {
-                         -d $_[0]->path->parent->subdir->($_[0]->name)
+                         -d $_[0]->path->parent->subdir($_[0]->name)
                              ? 1 : 0
                          },
                      );
@@ -70,7 +70,7 @@ class Gitalist::Git::Repository with Gitalist::Git::HasUtils {
                         lazy_build => 1 );
 
     method BUILD {
-        $self->$_() for qw/last_change owner description/; # Ensure to build early.
+        $self->$_() for qw/last_change owner description /; # Ensure to build early.
     }
 
     ## Public methods

@@ -1,7 +1,6 @@
 ---
 abstract: 'A modern git web viewer'
 author:
-  - 'AND COPYRIGHT'
   - 'Dan Brook <broq@cpan.org>'
 build_requires:
   ExtUtils::MakeMaker: 6.42
@@ -10,7 +9,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.97'
+generated_by: 'Module::Install version 0.91'
 license: gpl2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -23,9 +22,15 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.001008
+    version: 0.002001_01
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
+  Gitalist::ContentMangler::Resolver:
+    file: lib/Gitalist/ContentMangler/Resolver.pm
+  Gitalist::ContentMangler::Resolver::Default:
+    file: lib/Gitalist/ContentMangler/Resolver/Default.pm
+  Gitalist::ContentMangler::Transformer::SyntaxHighlight:
+    file: lib/Gitalist/ContentMangler/Transformer/SyntaxHighlight.pm
   Gitalist::Controller:
     file: lib/Gitalist/Controller.pm
   Gitalist::Controller::Fragment:
@@ -72,6 +77,8 @@ provides:
     file: lib/Gitalist/Git/Util.pm
   Gitalist::Model::CollectionOfRepos:
     file: lib/Gitalist/Model/CollectionOfRepos.pm
+  Gitalist::Model::ContentMangler:
+    file: lib/Gitalist/Model/ContentMangler.pm
   Gitalist::Script::CGI:
     file: lib/Gitalist/Script/CGI.pm
   Gitalist::Script::FastCGI:
@@ -118,10 +125,12 @@ requires:
   Git::PurePerl: 0.46
   HTML::Entities: 0
   IPC::Run: 0
+  JSON::XS: 0
   List::MoreUtils: 0
   Moose: 0
   Moose::Autobox: 0
-  MooseX::Declare: 0.33
+  MooseX::Declare: 0.32
+  MooseX::MultiMethods: 0.10
   MooseX::Types: 0
   MooseX::Types::Common: 0
   MooseX::Types::Path::Class: 0
@@ -129,11 +138,9 @@ requires:
   Sub::Exporter: 0
   Syntax::Highlight::Engine::Kate: 0
   Sys::Hostname: 0
-  Template: 0
+  Template: 2.22
   Template::Plugin::Cycle: 0
   Template::Provider::Encoding: 0
-  Test::More: 0.88
-  Test::utf8: 0.02
   Try::Tiny: 0
   aliased: 0
   namespace::autoclean: 0
@@ -141,4 +148,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.001008
+version: 0.002001_01

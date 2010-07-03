@@ -18,6 +18,7 @@ sub find : Chained('base') PathPart('') CaptureArgs(1) {
         $c->stash(
             Repository => $repos,
             HEAD => $repos->head_hash,
+            data => $repos,
         );
     }
     catch {
@@ -42,7 +43,7 @@ sub object : Chained('find') PathPart('') Args(1) {
 
 }
 
-sub summary : Chained('find') PathPart('') Args(0) {}
+sub summary : Chained('find') PathPart('') Args() {}
 
 sub heads : Chained('find') Args(0) {}
 

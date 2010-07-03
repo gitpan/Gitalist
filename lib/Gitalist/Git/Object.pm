@@ -35,8 +35,7 @@ class Gitalist::Git::Object {
                       required => 1,
                       is => 'ro',
                       lazy_build => 1,
-                      handles => [ 'content',
-                               ],
+                      handles => [ 'content' ],
                   );
 
     # objects can't determine their mode or filename

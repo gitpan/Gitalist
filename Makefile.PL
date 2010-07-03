@@ -1,5 +1,8 @@
 #!/usr/bin/env perl
 
+use FindBin;
+BEGIN { do "$FindBin::Bin/script/env" or die $@ }
+
 use strict;
 use warnings;
 
@@ -62,7 +65,7 @@ requires 'Catalyst::Action::REST' => '0.85';
 requires 'Catalyst::View::Component::SubInclude' => '0.07';
 requires 'Catalyst::View::TT' => '0.34';
 requires 'Try::Tiny';
-requires 'Template';
+requires 'Template' => '2.22';
 requires 'Template::Provider::Encoding';
 requires 'Template::Plugin::Cycle';
 
@@ -70,7 +73,8 @@ requires 'Config::General';
 
 requires 'Moose';
 requires 'Moose::Autobox';
-requires 'MooseX::Declare' => '0.33';
+requires 'MooseX::MultiMethods' => '0.10';
+requires 'MooseX::Declare' => '0.32';
 requires 'MooseX::Types::Common';
 requires 'MooseX::Types::Path::Class';
 requires 'MooseX::Types';
@@ -88,6 +92,7 @@ requires 'File::Type::WebImages';
 requires 'File::Which';
 requires 'HTML::Entities';
 requires 'IPC::Run';
+requires 'JSON::XS';
 requires 'List::MoreUtils';
 requires 'Path::Class' => '0.17';
 requires 'Sub::Exporter';

@@ -14,7 +14,7 @@ use Catalyst qw/
                 SubRequest
 /;
 
-our $VERSION = '0.001008';
+our $VERSION = '0.002001_01';
 $VERSION = eval $VERSION;
 
 __PACKAGE__->config(
@@ -113,6 +113,26 @@ The canonical repository for the master branch is:
 Gitalist is also mirrored to github, and a number of people have active forks
 with branches and/or new features in the master branch.
 
+=head1 BOOTSTRAPPING
+
+As of C<0.002001> Gitalist can now be bootstrapped to run out of its
+own directory by installing its prerequisites locally with the help of
+L<local::lib>. So instead of installing the prerequisites to the
+system path with CPAN they are installed under the Gitalist directory.
+
+To do this clone Gitalist from the Shadowcat repository mentioned
+above or grab a download from CPAN or broquaint's github repository:
+
+    http://github.com/broquaint/Gitalist/downloads
+
+With the source acquired and unpacked run the following from within the
+Gitalist directory:
+
+    perl script/bootstrap
+
+This will install the necessary modules for the build process which in
+turn installs the prerequisites locally.
+
 =head1 INITIAL CONFIGURATION
 
 Gitalist is configured using L<Catalyst::Plugin::Configloader>. The supplied sample
@@ -171,12 +191,11 @@ are running from a git checkout, adding a trivial FCGI script as C<script/gitali
 (this file is specifically in C<.gitignore> so you can have your own copy):
 
     #!/bin/sh
-    export PERL5LIB=/home/t0m/public_html/Gitalist/lib:/home/t0m/perl5/lib/perl5:$PERL5LIB
     exec /home/t0m/public_html/Gitalist/script/gitalist_fastcgi.pl
 
 This example can be seen live here:
 
-    http://goatse.co.uk/~bobtfish/Gitalist/script/gitalist.fcgi/
+    http://example.gitalist.com
 
 =head1 CONTRIBUTING
 
