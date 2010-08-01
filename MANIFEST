@@ -1,5 +1,9 @@
+#Makefile.PL#
+.#Makefile.PL
 Changes
+Changes.orig
 gitalist.conf
+inc/File/Copy/Recursive.pm
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
 inc/Module/Install/AuthorRequires.pm
@@ -23,6 +27,8 @@ lib/Gitalist/ContentMangler/Resolver/Default.pm
 lib/Gitalist/ContentMangler/Transformer/SyntaxHighlight.pm
 lib/Gitalist/Controller.pm
 lib/Gitalist/Controller/Fragment.pm
+lib/Gitalist/Controller/Fragment/#Ref.pm#
+lib/Gitalist/Controller/Fragment/.Ref.pm.swp
 lib/Gitalist/Controller/Fragment/Ref.pm
 lib/Gitalist/Controller/Fragment/Repository.pm
 lib/Gitalist/Controller/LegacyURI.pm
@@ -30,6 +36,7 @@ lib/Gitalist/Controller/OPML.pm
 lib/Gitalist/Controller/Ref.pm
 lib/Gitalist/Controller/Repository.pm
 lib/Gitalist/Controller/Root.pm
+lib/Gitalist/Controller/Root.pm.orig
 lib/Gitalist/Faq.pod
 lib/Gitalist/Git/CollectionOfRepositories.pm
 lib/Gitalist/Git/CollectionOfRepositories/FromDirectory.pm
@@ -42,6 +49,7 @@ lib/Gitalist/Git/Object/HasTree.pm
 lib/Gitalist/Git/Object/Tag.pm
 lib/Gitalist/Git/Object/Tree.pm
 lib/Gitalist/Git/Repository.pm
+lib/Gitalist/Git/Repository.pm.orig
 lib/Gitalist/Git/Types.pm
 lib/Gitalist/Git/Util.pm
 lib/Gitalist/Model/CollectionOfRepos.pm
@@ -50,18 +58,23 @@ lib/Gitalist/Script/CGI.pm
 lib/Gitalist/Script/FastCGI.pm
 lib/Gitalist/Script/Server.pm
 lib/Gitalist/ScriptRole.pm
+lib/Gitalist/URIStructure/#Ref.pm#
 lib/Gitalist/URIStructure/Fragment/WithLog.pm
 lib/Gitalist/URIStructure/Ref.pm
 lib/Gitalist/URIStructure/Repository.pm
 lib/Gitalist/URIStructure/WithLog.pm
 lib/Gitalist/Utils.pm
+lib/Gitalist/View/#SyntaxHighlight.pm#
+lib/Gitalist/View/.#SyntaxHighlight.pm
 lib/Gitalist/View/Default.pm
 lib/Gitalist/View/SyntaxHighlight.pm
 Makefile.PL
+Makefile.PL.orig
 MANIFEST			This list of files
 MANIFEST.SKIP
 META.yml
 README
+root/#gitweb.css#
 root/_diff.tt2
 root/_diff_plain.tt2
 root/_diff_tree.tt2
@@ -69,6 +82,7 @@ root/_header_feeds.tt2
 root/_log_pager.tt2
 root/_refs.tt2
 root/favicon.ico
+root/favicon_gif.ico
 root/fragment/collectionofrepositories.tt2
 root/fragment/ref/blame.tt2
 root/fragment/ref/blob.tt2
@@ -114,6 +128,7 @@ root/repository/summary.tt2
 root/repository/tags.tt2
 root/search.tt2
 root/search_help.tt2
+root/static/css/.site.css.swp
 root/static/css/core.css
 root/static/css/syntax/Diff.css
 root/static/css/syntax/Perl.css
@@ -152,8 +167,6 @@ root/static/i/logo.png
 root/static/js/jquery.min.js
 root/static/js/site.js
 root/wrapper.tt2
-script/bootstrap.pl
-script/env
 script/gitalist_cgi.pl
 script/gitalist_create.pl
 script/gitalist_fastcgi.pl
@@ -164,6 +177,7 @@ t/01app.t
 t/02git_CollectionOfRepositories_FromDirectory.t
 t/02git_object.t
 t/02git_Repository.t
+t/02git_Repository.t.orig
 t/02git_util.t
 t/03legacy_uri.t
 t/app-mech-rootpage.t
