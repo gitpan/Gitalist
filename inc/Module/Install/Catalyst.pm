@@ -11,22 +11,20 @@ use File::Find;
 use FindBin;
 use File::Copy::Recursive 'rcopy';
 use File::Spec ();
-use Getopt::Long qw(GetOptionsFromString :config no_ignore_case);
-use Data::Dumper;
 
 my $SAFETY = 0;
 
 our @IGNORE =
   qw/Build Build.PL Changes MANIFEST META.yml Makefile.PL Makefile README
-  _build blib lib script t inc .*\.svn \.git _darcs \.bzr \.hg
-  debian build-stamp install-stamp configure-stamp/;
+  _build blib lib script t inc \.svn \.git _darcs \.bzr \.hg/;
 our @CLASSES   = ();
 our $ENGINE    = 'CGI';
+our $CORE      = 0;
+our $MULTIARCH = 0;
 our $SCRIPT    = '';
 our $USAGE     = '';
-our %PAROPTS   = ();
 
-#line 57
+#line 42
 
 sub catalyst {
     my $self = shift;
@@ -40,7 +38,7 @@ EOF
 EOF
 }
 
-#line 77
+#line 58
 
 sub catalyst_files {
     my $self = shift;
@@ -64,21 +62,21 @@ sub catalyst_files {
     }
 }
 
-#line 105
+#line 84
 
 sub catalyst_ignore_all {
     my ( $self, $ignore ) = @_;
     @IGNORE = @$ignore;
 }
 
-#line 116
+#line 93
 
 sub catalyst_ignore {
     my ( $self, @ignore ) = @_;
     push @IGNORE, @ignore;
 }
 
-#line 125
+#line 102
 
 # Workaround for a namespace conflict
 sub catalyst_par {
@@ -91,70 +89,51 @@ sub catalyst_par {
     $usage =~ s/"/\\"/g;
     my $class_string = join "', '", @CLASSES;
     $class_string = "'$class_string'" if $class_string;
-    local $Data::Dumper::Indent = 0;
-    local $Data::Dumper::Terse = 1;
-    local $Data::Dumper::Pad = ' ';
-    my $paropts_string = Dumper(\%PAROPTS) || "{ }";
     $self->postamble(<<EOF);
 catalyst_par :: all
-\t\$(NOECHO) \$(PERL) -Ilib -Minc::Module::Install -MModule::Install::Catalyst -e"Catalyst::Module::Install::_catalyst_par( '$par', '$name', { CLASSES => [$class_string], PAROPTS => $paropts_string, ENGINE => '$ENGINE', SCRIPT => '$SCRIPT', USAGE => q#$usage# } )"
+\t\$(NOECHO) \$(PERL) -Ilib -Minc::Module::Install -MModule::Install::Catalyst -e"Catalyst::Module::Install::_catalyst_par( '$par', '$name', { CLASSES => [$class_string], CORE => $CORE, ENGINE => '$ENGINE', MULTIARCH => $MULTIARCH, SCRIPT => '$SCRIPT', USAGE => q#$usage# } )"
 EOF
     print <<EOF;
 Please run "make catalyst_par" to create the PAR package!
 EOF
 }
 
-#line 153
+#line 126
 
 sub catalyst_par_core {
     my ( $self, $core ) = @_;
-    $core ? ( $PAROPTS{'B'} = $core ) : $PAROPTS{'B'}++;
+    $core ? ( $CORE = $core ) : $CORE++;
 }
 
-#line 162
+#line 135
 
 sub catalyst_par_classes {
     my ( $self, @classes ) = @_;
     push @CLASSES, @classes;
 }
 
-#line 171
+#line 144
 
 sub catalyst_par_engine {
     my ( $self, $engine ) = @_;
     $ENGINE = $engine;
 }
 
-#line 180
+#line 153
 
 sub catalyst_par_multiarch {
     my ( $self, $multiarch ) = @_;
-    $multiarch ? ( $PAROPTS{'m'} = $multiarch ) : $PAROPTS{'m'}++;
+    $multiarch ? ( $MULTIARCH = $multiarch ) : $MULTIARCH++;
 }
 
-#line 213
-
-sub catalyst_par_options {
-    my ( $self, $optstring ) = @_;
-    my %o = ();
-    eval "use PAR::Packer ()";
-    if ($@) {
-        warn "WARNING: catalyst_par_options ignored - you need PAR::Packer\n"
-    }
-    else {
-        GetOptionsFromString($optstring, \%o, PAR::Packer->options);
-        %PAROPTS = ( %PAROPTS, %o);
-    }
-}
-
-#line 230
+#line 162
 
 sub catalyst_par_script {
     my ( $self, $script ) = @_;
     $SCRIPT = $script;
 }
 
-#line 239
+#line 171
 
 sub catalyst_par_usage {
     my ( $self, $usage ) = @_;
@@ -175,7 +154,8 @@ sub _catalyst_par {
     my $CLASSES   = $opts->{CLASSES} || [];
     my $USAGE     = $opts->{USAGE};
     my $SCRIPT    = $opts->{SCRIPT};
-    my $PAROPTS   = $opts->{PAROPTS};
+    my $MULTIARCH = $opts->{MULTIARCH};
+    my $CORE      = $opts->{CORE};
 
     my $name = $class_name;
     $name =~ s/::/_/g;
@@ -281,16 +261,14 @@ EOF
     open my $olderr, '>&STDERR';
     open STDERR, '>', File::Spec->devnull;
     my %opt = (
-        %{$PAROPTS},
-        # take user defined options first and override them with harcoded defaults
         'x' => 1,
         'n' => 0,
         'o' => $par,
+        'a' => [ grep( !/par.pl/, glob '.' ) ],
         'p' => 1,
+        'B' => $CORE,
+        'm' => $MULTIARCH
     );
-    # do not replace the whole $opt{'a'} array; just push required default value
-    push @{$opt{'a'}}, grep( !/par.pl/, glob '.' );
-
     App::Packer::PAR->new(
         frontend  => 'Module::ScanDeps',
         backend   => 'PAR::Packer',
@@ -307,6 +285,6 @@ EOF
     return 1;
 }
 
-#line 401
+#line 332
 
 1;
