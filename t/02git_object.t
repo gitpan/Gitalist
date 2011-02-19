@@ -1,6 +1,6 @@
 use FindBin qw/$Bin/;
 BEGIN {
-    my $env = "$FindBin::Bin/script/env";
+    my $env = "$FindBin::Bin/../script/env";
     if (-r $env) {
         do $env or die $@;
     }
@@ -39,6 +39,7 @@ is($object->file, 'dir1', 'file is correct');
 is($object->mode, 16384, 'mode is correct');
 is($object->modestr, 'drwxr-xr-x', "modestr is correct" );
 is($object->size, 33, "size is correct");
+is($object,'729a7c3f6ba5453b42d16a43692205f67fb23bc1', 'stringifies correctly');
 
 # Create object from sha1.
 my $obj2 = Gitalist::Git::Object::Blob->new(
@@ -64,6 +65,7 @@ my $commit_obj = Gitalist::Git::Object::Commit->new(
     sha1 => '3f7567c7bdf7e7ebf410926493b92d398333116e',
 );
 isa_ok($commit_obj, 'Gitalist::Git::Object::Commit', "commit object");
+isa_ok($commit_obj->tree->[0], 'Gitalist::Git::Object::Tree');
 my ($tree, $patch) = $commit_obj->diff(
     patch => 1,
 );

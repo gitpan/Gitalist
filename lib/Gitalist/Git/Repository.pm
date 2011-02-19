@@ -15,6 +15,8 @@ class Gitalist::Git::Repository with Gitalist::Git::HasUtils {
     use Gitalist::Git::Object::Tree;
     use Gitalist::Git::Object::Commit;
     use Gitalist::Git::Object::Tag;
+    use Gitalist::Git::Head;
+    use Gitalist::Git::Tag;
 
     our $SHA1RE = qr/[0-9a-fA-F]{40}/;
 
@@ -23,7 +25,12 @@ class Gitalist::Git::Repository with Gitalist::Git::HasUtils {
         # Last path component becomes $self->name
         # Full path to git objects becomes $self->path
         my $name = $dir->dir_list(-1);
-        $dir = $dir->subdir('.git') if (-f $dir->file('.git', 'HEAD'));
+	if(-f $dir->file('.git', 'HEAD')) { # Non-bare repo above .git
+	    $dir  = $dir->subdir('.git');
+	    $name = $dir->dir_list(-2, 1); # .../name/.git
+	} elsif('.git' eq $dir->dir_list(-1)) { # Non-bare repo in .git
+	    $name = $dir->dir_list(-2);
+	}
         confess("Can't find a git repository at " . $dir)
             unless ( -f $dir->file('HEAD') );
         return $class->$orig(name => $name,
@@ -59,10 +66,10 @@ class Gitalist::Git::Repository with Gitalist::Git::HasUtils {
                              ? 1 : 0
                          },
                      );
-    has heads => ( isa => ArrayRef[HashRef],
+    has heads => ( isa => ArrayRef['Gitalist::Git::Head'],
                    is => 'ro',
                    lazy_build => 1);
-    has tags => ( isa => ArrayRef[HashRef],
+    has tags => ( isa => ArrayRef['Gitalist::Git::Tag'],
                    is => 'ro',
                    lazy_build => 1);
     has references => ( isa => HashRef[ArrayRef[Str]],
@@ -75,23 +82,12 @@ class Gitalist::Git::Repository with Gitalist::Git::HasUtils {
 
     ## Public methods
 
-    method get_object_or_head (NonEmptySimpleStr $ref) {
-        my $sha1 = is_SHA1($ref) ? $ref : $self->head_hash($ref);
-        $self->get_object($sha1);
-    }
-
     method head_hash (Str $head?) {
         my $output = $self->run_cmd(qw/rev-parse --verify/, $head || 'HEAD' );
         confess("No such head: " . $head) unless defined $output;
 
         my($sha1) = $output =~ /^($SHA1RE)$/;
         return $sha1;
-    }
-
-    method list_tree (SHA1 $sha1?) {
-        $sha1 ||= $self->head_hash;
-        my $object = $self->get_object($sha1);
-        return @{$object->tree};
     }
 
     method get_object (NonEmptySimpleStr $sha1) {
@@ -106,20 +102,6 @@ class Gitalist::Git::Repository with Gitalist::Git::HasUtils {
             sha1 => $sha1,
             type => $type,
         );
-    }
-
-    method hash_by_path ($base, $path = '', $type?) {
-        $path =~ s{/+$}();
-        # FIXME should this really just take the first result?
-        my @paths = $self->run_cmd('ls-tree', $base, '--', $path)
-            or return;
-        my $line = $paths[0];
-
-        #'100644 blob 0fa3f3a66fb6a137f6ec2c19351ed4d807070ffa	panic.c'
-        $line =~ m/^([0-9]+) (.+) ($SHA1RE)\t/;
-        return defined $type && $type ne $2
-            ? ()
-                : $3;
     }
 
     method list_revs ( NonEmptySimpleStr :$sha1!,
@@ -262,19 +244,8 @@ class Gitalist::Git::Repository with Gitalist::Git::HasUtils {
         my @revlines = $self->run_cmd_list(qw/for-each-ref --sort=-committerdate /, '--format=%(objectname)%00%(refname)%00%(committer)', 'refs/heads');
         my @ret;
         for my $line (@revlines) {
-            my ($rev, $head, $commiter) = split /\0/, $line, 3;
-            $head =~ s!^refs/heads/!!;
-
-            push @ret, { sha1 => $rev, name => $head };
-
-            #FIXME: That isn't the time I'm looking for..
-            if (my ($epoch, $tz) = $line =~ /\s(\d+)\s+([+-]\d+)$/) {
-                my $dt = DateTime->from_epoch(epoch => $epoch);
-                $dt->set_time_zone($tz);
-                $ret[-1]->{last_change} = $dt;
-            }
+            push @ret, Gitalist::Git::Head->new($line);
         }
-
         return \@ret;
     }
 
@@ -286,21 +257,8 @@ class Gitalist::Git::Repository with Gitalist::Git::HasUtils {
         );
         my @ret;
         for my $line (@revlines) {
-            my($refinfo, $creatorinfo) = split /\0/, $line;
-            my($rev, $type, $name, $refid, $reftype, $title) = split(' ', $refinfo, 6);
-            my($creator, $epoch, $tz) = ($creatorinfo =~ /^(.*) ([0-9]+) (.*)$/);
-            $name =~ s!^refs/tags/!!;
-
-            push @ret, { sha1 => $rev, name => $name };
-
-            #FIXME: That isn't the time I'm looking for..
-            if($epoch and $tz) {
-                my $dt = DateTime->from_epoch(epoch => $epoch);
-                $dt->set_time_zone($tz);
-                $ret[-1]->{last_change} = $dt;
-            }
+            push @ret, Gitalist::Git::Tag->new($line);
         }
-
         return \@ret;
     }
 
@@ -391,19 +349,9 @@ Hashref of ArrayRefs for each reference.
 
 Return the sha1 for HEAD, or any specified head.
 
-=head2 list_tree ($sha1?)
-
-Return an array of contents for a given tree.
-The tree is specified by sha1, and defaults to HEAD.
-Each item is a L<Gitalist::Git::Object>.
-
 =head2 get_object ($sha1)
 
 Return an appropriate subclass of L<Gitalist::Git::Object> for the given sha1.
-
-=head2 hash_by_path ($sha1, $path, $type?)
-
-Returns the sha1 for a given path, optionally limited by type.
 
 =head2 list_revs ($sha1, $count?, $skip?, \%search?, $file?)
 
