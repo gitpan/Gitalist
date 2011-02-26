@@ -24,7 +24,7 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.002007
+    version: 0.002008
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
   Gitalist::ContentMangler::Resolver:
@@ -55,6 +55,8 @@ provides:
     file: lib/Gitalist/Git/CollectionOfRepositories.pm
   Gitalist::Git::CollectionOfRepositories::FromDirectory:
     file: lib/Gitalist/Git/CollectionOfRepositories/FromDirectory.pm
+  Gitalist::Git::CollectionOfRepositories::FromDirectory::WhiteList:
+    file: lib/Gitalist/Git/CollectionOfRepositories/FromDirectory/WhiteList.pm
   Gitalist::Git::CollectionOfRepositories::FromDirectoryRecursive:
     file: lib/Gitalist/Git/CollectionOfRepositories/FromDirectoryRecursive.pm
   Gitalist::Git::CollectionOfRepositories::FromListOfDirectories:
@@ -111,7 +113,6 @@ provides:
     file: lib/Gitalist/View/SyntaxHighlight.pm
 requires:
   CGI: 0
-  Catalyst::Action::REST: 0.85
   Catalyst::Action::RenderView: 0
   Catalyst::Component::InstancePerContext: 0
   Catalyst::Controller::ActionRole: 0
@@ -156,4 +157,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.002007
+version: 0.002008

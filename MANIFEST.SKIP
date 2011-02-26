@@ -12,4 +12,4 @@ Makefile\.old$
 \.shipit$
 script/bootstrap.pl
 script/env
-local-lib5/
+

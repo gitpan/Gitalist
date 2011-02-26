@@ -36,6 +36,7 @@ lib/Gitalist/Git/CollectionOfRepositories.pm
 lib/Gitalist/Git/CollectionOfRepositories/FromDirectory.pm
 lib/Gitalist/Git/CollectionOfRepositories/FromDirectoryRecursive.pm
 lib/Gitalist/Git/CollectionOfRepositories/FromListOfDirectories.pm
+lib/Gitalist/Git/CollectionOfRepositories/FromDirectory/WhiteList.pm
 lib/Gitalist/Git/HasUtils.pm
 lib/Gitalist/Git/Head.pm
 lib/Gitalist/Git/Object.pm
@@ -166,6 +167,7 @@ t/00git_version.t
 t/01app.t
 t/02git_CollectionOfRepositories_FromDirectory.t
 t/02git_CollectionOfRepositories_FromDirectoryRecursive.t
+t/02git_CollectionOfRepositories_FromDirectory_WhiteList.t
 t/02git_head.t
 t/02git_object.t
 t/02git_Repository.t
@@ -216,6 +218,7 @@ t/lib/repositories/nodescription/objects/82/b5fee28277349b6d46beff5fdf6a7152347b
 t/lib/repositories/nodescription/objects/90/62594aebb5df0de7fb92413f17a9eced196c22
 t/lib/repositories/nodescription/objects/pack/.gitignore
 t/lib/repositories/nodescription/refs/heads/master
+t/lib/repositories/projects.list
 t/lib/repositories/recursive/barerecursive.git/config
 t/lib/repositories/recursive/barerecursive.git/description
 t/lib/repositories/recursive/barerecursive.git/HEAD
@@ -247,6 +250,7 @@ t/lib/repositories/recursive/goingdeeper/scratch.git/info/exclude
 t/lib/repositories/recursive/nothinginhere/emptyfile
 t/lib/repositories/repo1/config
 t/lib/repositories/repo1/description
+t/lib/repositories/repo1/export-ok
 t/lib/repositories/repo1/HEAD
 t/lib/repositories/repo1/hooks/applypatch-msg
 t/lib/repositories/repo1/hooks/commit-msg
