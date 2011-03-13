@@ -24,7 +24,7 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.002009
+    version: 0.003001
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
   Gitalist::ContentMangler::Resolver:
@@ -126,7 +126,6 @@ requires:
   Catalyst::View::TT: 0.34
   Config::General: 0
   DateTime: 0
-  DateTime::Format::Mail: 0
   File::Copy::Recursive: 0
   File::Type: 0
   File::Type::WebImages: 0
@@ -139,18 +138,15 @@ requires:
   Moose: 0
   Moose::Autobox: 0
   MooseX::Declare: 0.32
-  MooseX::MultiMethods: 0.10
   MooseX::Types: 0
   MooseX::Types::Common: 0
   MooseX::Types::Path::Class: 0
   Path::Class: 0.17
-  Sub::Exporter: 0
   Syntax::Highlight::Engine::Kate: 0
   Sys::Hostname: 0
   Template: 2.22
   Template::Plugin::Cycle: 0
   Template::Plugin::UTF8Decode: 0
-  Template::Provider::Encoding: 0
   Try::Tiny: 0
   aliased: 0
   namespace::autoclean: 0
@@ -158,4 +154,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.002009
+version: 0.003001

@@ -34,9 +34,9 @@ lib/Gitalist/Controller/Root.pm
 lib/Gitalist/Faq.pod
 lib/Gitalist/Git/CollectionOfRepositories.pm
 lib/Gitalist/Git/CollectionOfRepositories/FromDirectory.pm
+lib/Gitalist/Git/CollectionOfRepositories/FromDirectory/WhiteList.pm
 lib/Gitalist/Git/CollectionOfRepositories/FromDirectoryRecursive.pm
 lib/Gitalist/Git/CollectionOfRepositories/FromListOfDirectories.pm
-lib/Gitalist/Git/CollectionOfRepositories/FromDirectory/WhiteList.pm
 lib/Gitalist/Git/HasUtils.pm
 lib/Gitalist/Git/Head.pm
 lib/Gitalist/Git/Object.pm
@@ -63,7 +63,7 @@ lib/Gitalist/Utils.pm
 lib/Gitalist/View/Default.pm
 lib/Gitalist/View/SyntaxHighlight.pm
 Makefile.PL
-MANIFEST			This list of files
+MANIFEST
 MANIFEST.SKIP
 META.yml
 README
@@ -92,6 +92,7 @@ root/fragment/repository/summary.tt2
 root/fragment/repository/tags.tt2
 root/inc/chroma_hash.tt2
 root/inc/footer_feeds.tt2
+root/inc/history_pager.tt2
 root/inc/log_pager.tt2
 root/inc/syntax_highlight_css.tt2
 root/index.tt2
@@ -166,8 +167,8 @@ script/gitalist_test.pl
 t/00git_version.t
 t/01app.t
 t/02git_CollectionOfRepositories_FromDirectory.t
-t/02git_CollectionOfRepositories_FromDirectoryRecursive.t
 t/02git_CollectionOfRepositories_FromDirectory_WhiteList.t
+t/02git_CollectionOfRepositories_FromDirectoryRecursive.t
 t/02git_head.t
 t/02git_object.t
 t/02git_Repository.t
@@ -247,6 +248,20 @@ t/lib/repositories/recursive/goingdeeper/scratch.git/hooks/pre-rebase.sample
 t/lib/repositories/recursive/goingdeeper/scratch.git/hooks/prepare-commit-msg.sample
 t/lib/repositories/recursive/goingdeeper/scratch.git/hooks/update.sample
 t/lib/repositories/recursive/goingdeeper/scratch.git/info/exclude
+t/lib/repositories/recursive/goingdeeper2/scratch.git/config
+t/lib/repositories/recursive/goingdeeper2/scratch.git/description
+t/lib/repositories/recursive/goingdeeper2/scratch.git/HEAD
+t/lib/repositories/recursive/goingdeeper2/scratch.git/hooks/applypatch-msg.sample
+t/lib/repositories/recursive/goingdeeper2/scratch.git/hooks/commit-msg.sample
+t/lib/repositories/recursive/goingdeeper2/scratch.git/hooks/post-commit.sample
+t/lib/repositories/recursive/goingdeeper2/scratch.git/hooks/post-receive.sample
+t/lib/repositories/recursive/goingdeeper2/scratch.git/hooks/post-update.sample
+t/lib/repositories/recursive/goingdeeper2/scratch.git/hooks/pre-applypatch.sample
+t/lib/repositories/recursive/goingdeeper2/scratch.git/hooks/pre-commit.sample
+t/lib/repositories/recursive/goingdeeper2/scratch.git/hooks/pre-rebase.sample
+t/lib/repositories/recursive/goingdeeper2/scratch.git/hooks/prepare-commit-msg.sample
+t/lib/repositories/recursive/goingdeeper2/scratch.git/hooks/update.sample
+t/lib/repositories/recursive/goingdeeper2/scratch.git/info/exclude
 t/lib/repositories/recursive/nothinginhere/emptyfile
 t/lib/repositories/repo1/config
 t/lib/repositories/repo1/description

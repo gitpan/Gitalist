@@ -14,7 +14,7 @@ use Catalyst qw/
                 SubRequest
 /;
 
-our $VERSION = '0.002009';
+our $VERSION = '0.003001';
 $VERSION = eval $VERSION;
 
 __PACKAGE__->config(
@@ -38,13 +38,6 @@ around uri_for => sub {
   my ($orig, $c) = (shift, shift);
   my $uri = $c->$orig(@_);
   $$uri =~ tr[&][;] if defined $uri;
-  return $uri;
-};
-
-around uri_for_action => sub {
-  my ($orig, $c) = (shift, shift);
-  my $uri = $c->$orig(@_);
-  $$uri =~ s[/fragment\b][] if defined $uri;
   return $uri;
 };
 
@@ -223,8 +216,9 @@ Path to the C<git> binary.
 
 A directory containing the directories to show.
 
-If no repositories are found in this directory then Gitalist will
-search recursively in that directory for repositories.
+=item repos
+
+A list of directories containing repositories to show.
 
 =item search_recursively
 
@@ -254,7 +248,7 @@ visible. This is similar to C<gitweb>'s functionality.
 
 =item log
 
-The number of commits to show in the 
+The number of commits to show in the summary, shortlog and longlog views.
 
 =back
 

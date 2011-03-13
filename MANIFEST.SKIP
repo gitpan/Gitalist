@@ -12,4 +12,7 @@ Makefile\.old$
 \.shipit$
 script/bootstrap.pl
 script/env
-
+script/cpan-install
+local-lib5
+.*[~#]
+.*swp

@@ -20,7 +20,7 @@ class Gitalist::Git::Repository with Gitalist::Git::HasUtils {
 
     our $SHA1RE = qr/[0-9a-fA-F]{40}/;
 
-    around BUILDARGS (ClassName $class: Dir $dir) {
+    around BUILDARGS (ClassName $class: Dir $dir, Str $override_name = '') {
         # Allows us to be called as Repository->new($dir)
         # Last path component becomes $self->name
         # Full path to git objects becomes $self->path
@@ -32,8 +32,8 @@ class Gitalist::Git::Repository with Gitalist::Git::HasUtils {
             $name = $dir->dir_list(-2);
         }
         confess("Can't find a git repository at " . $dir)
-            unless ( -f $dir->file('HEAD') );
-        return $class->$orig(name => $name,
+            unless -f $dir->file('HEAD');
+        return $class->$orig(name => $override_name || $name,
                              path => $dir);
     }
 
