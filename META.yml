@@ -24,7 +24,7 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.003001
+    version: 0.003002
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
   Gitalist::ContentMangler::Resolver:
@@ -79,6 +79,8 @@ provides:
     file: lib/Gitalist/Git/Object/Tree.pm
   Gitalist::Git::Repository:
     file: lib/Gitalist/Git/Repository.pm
+  Gitalist::Git::Serializable:
+    file: lib/Gitalist/Git/Serializable.pm
   Gitalist::Git::Tag:
     file: lib/Gitalist/Git/Tag.pm
   Gitalist::Git::Types:
@@ -113,6 +115,7 @@ provides:
     file: lib/Gitalist/View/SyntaxHighlight.pm
 requires:
   CGI: 0
+  Catalyst::Action::REST: 0
   Catalyst::Action::RenderView: 0
   Catalyst::Component::InstancePerContext: 0
   Catalyst::Controller::ActionRole: 0
@@ -133,13 +136,16 @@ requires:
   Git::PurePerl: 0.47
   HTML::Entities: 0
   IPC::Run: 0
+  JSON: 0
   JSON::XS: 0
   List::MoreUtils: 0
   Moose: 0
   Moose::Autobox: 0
   MooseX::Declare: 0.32
+  MooseX::Storage: 0
   MooseX::Types: 0
   MooseX::Types::Common: 0
+  MooseX::Types::ISO8601: 0
   MooseX::Types::Path::Class: 0
   Path::Class: 0.17
   Syntax::Highlight::Engine::Kate: 0
@@ -154,4 +160,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.003001
+version: 0.003002
