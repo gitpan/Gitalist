@@ -46,6 +46,7 @@ lib/Gitalist/Git/Object/HasTree.pm
 lib/Gitalist/Git/Object/Tag.pm
 lib/Gitalist/Git/Object/Tree.pm
 lib/Gitalist/Git/Repository.pm
+lib/Gitalist/Git/Repository.pm.orig
 lib/Gitalist/Git/Serializable.pm
 lib/Gitalist/Git/Tag.pm
 lib/Gitalist/Git/Types.pm
@@ -68,14 +69,13 @@ MANIFEST
 MANIFEST.SKIP
 META.yml
 README
+repl.rc
 root/_diff.tt2
 root/_diff_plain.tt2
 root/_diff_tree.tt2
 root/_header_feeds.tt2
 root/_log_pager.tt2
 root/_refs.tt2
-root/favicon.ico
-root/favicon_gif.ico
 root/fragment/collectionofrepositories.tt2
 root/fragment/ref/blame.tt2
 root/fragment/ref/blob.tt2
@@ -174,6 +174,7 @@ t/02git_CollectionOfRepositories_FromDirectoryRecursive.t
 t/02git_head.t
 t/02git_object.t
 t/02git_Repository.t
+t/02git_Repository.t.orig
 t/02git_tag.t
 t/02git_util.t
 t/03legacy_uri.t
@@ -291,11 +292,13 @@ t/lib/repositories/repo1/objects/76/018072e09c5d31c8c6e3113b8aa0fe625195ca
 t/lib/repositories/repo1/objects/82/b5fee28277349b6d46beff5fdf6a7152347ba0
 t/lib/repositories/repo1/objects/90/62594aebb5df0de7fb92413f17a9eced196c22
 t/lib/repositories/repo1/objects/96/edc8ba5ae50f4c9f66cba1d0c0a03dd7317c9c
+t/lib/repositories/repo1/objects/d6/ddf8b26be63066e01d96a0922c87cd8d6e2270
+t/lib/repositories/repo1/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+t/lib/repositories/repo1/objects/f6/fc60f3f43501e81ff865b425b3c6c5a4142dd2
 t/lib/repositories/repo1/objects/pack/.gitignore
 t/lib/repositories/repo1/refs/heads/branch1
 t/lib/repositories/repo1/refs/heads/master
 t/lib/repositories/repo1/refs/tags/0.01
-t/lib/repositories/working/README
 t/lib/TestGitalist.pm
 t/model_collectionofrepos.t
 t/opml.t
