@@ -5,10 +5,10 @@ author:
   - 'Dan Brook <broq@cpan.org>'
 build_requires:
   ExtUtils::MakeMaker: 6.42
+  Test::Deep: 0.108
   Test::Exception: 0.31
   Test::More: 0.88
   Test::utf8: 0.02
-  Test:Deep: 0.108
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
@@ -25,7 +25,7 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.003003
+    version: 0.003004
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
   Gitalist::ContentMangler::Resolver:
@@ -161,4 +161,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.003003
+version: 0.003004
