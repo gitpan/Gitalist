@@ -93,6 +93,7 @@ root/fragment/repository/summary.tt2
 root/fragment/repository/tags.tt2
 root/inc/chroma_hash.tt2
 root/inc/footer_feeds.tt2
+root/inc/gravatar.tt2
 root/inc/history_pager.tt2
 root/inc/log_pager.tt2
 root/inc/syntax_highlight_css.tt2
@@ -153,7 +154,6 @@ root/static/i/icons/longlog.png
 root/static/i/icons/raw.png
 root/static/i/icons/shortlog.gif
 root/static/i/icons/shortlog.png
-root/static/i/icons/Thumbs.db
 root/static/i/icons/tree.gif
 root/static/i/icons/tree.png
 root/static/i/logo.png
