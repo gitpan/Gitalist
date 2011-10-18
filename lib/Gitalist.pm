@@ -14,7 +14,7 @@ use Catalyst qw/
                 SubRequest
 /;
 
-our $VERSION = '0.003005';
+our $VERSION = '0.003006';
 $VERSION = eval $VERSION;
 
 __PACKAGE__->config(
@@ -229,10 +229,6 @@ leaking repo names via the browser referer headers.
 =head2 Model::CollectionOfRepos
 
 =over
-
-=item git
-
-Path to the C<git> binary.
 
 =item repo_dir
 

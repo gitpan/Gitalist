@@ -1,4 +1,0 @@
-$_REPL->load_plugin('ReadLineHistory');
-use local::lib './local-lib5';
-use lib './lib';
-use Gitalist;

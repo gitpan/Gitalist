@@ -9,14 +9,14 @@ with qw/
 /;
 
 use File::Type::WebImages ();
-use JSON::XS qw(encode_json);
+use JSON::XS qw/encode_json/;
 
 sub base : Chained('/fragment/repository/find') PathPart('') CaptureArgs(0) {}
 
 sub _diff {
     my ($self, $c) = @_;
     my %diff_args = ( patch => 1 );
-    foreach my $arg qw/filename parent/ {
+    foreach my $arg (qw/filename parent/) {
         if (defined $c->stash->{$arg}) {
             $diff_args{$arg} = $c->stash->{$arg};
         };

@@ -46,7 +46,6 @@ lib/Gitalist/Git/Object/HasTree.pm
 lib/Gitalist/Git/Object/Tag.pm
 lib/Gitalist/Git/Object/Tree.pm
 lib/Gitalist/Git/Repository.pm
-lib/Gitalist/Git/Repository.pm.orig
 lib/Gitalist/Git/Serializable.pm
 lib/Gitalist/Git/Tag.pm
 lib/Gitalist/Git/Types.pm
@@ -65,11 +64,11 @@ lib/Gitalist/Utils.pm
 lib/Gitalist/View/Default.pm
 lib/Gitalist/View/SyntaxHighlight.pm
 Makefile.PL
-MANIFEST
-MANIFEST.SKIP
+MANIFEST			This list of files
 META.yml
+MYMETA.json
+MYMETA.yml
 README
-repl.rc
 root/_diff.tt2
 root/_diff_plain.tt2
 root/_diff_tree.tt2
@@ -174,7 +173,6 @@ t/02git_CollectionOfRepositories_FromDirectoryRecursive.t
 t/02git_head.t
 t/02git_object.t
 t/02git_Repository.t
-t/02git_Repository.t.orig
 t/02git_tag.t
 t/02git_util.t
 t/03legacy_uri.t
@@ -267,6 +265,20 @@ t/lib/repositories/recursive/goingdeeper2/scratch.git/hooks/prepare-commit-msg.s
 t/lib/repositories/recursive/goingdeeper2/scratch.git/hooks/update.sample
 t/lib/repositories/recursive/goingdeeper2/scratch.git/info/exclude
 t/lib/repositories/recursive/nothinginhere/emptyfile
+t/lib/repositories/recursive/other_bare.git/config
+t/lib/repositories/recursive/other_bare.git/description
+t/lib/repositories/recursive/other_bare.git/HEAD
+t/lib/repositories/recursive/other_bare.git/hooks/applypatch-msg.sample
+t/lib/repositories/recursive/other_bare.git/hooks/commit-msg.sample
+t/lib/repositories/recursive/other_bare.git/hooks/post-commit.sample
+t/lib/repositories/recursive/other_bare.git/hooks/post-receive.sample
+t/lib/repositories/recursive/other_bare.git/hooks/post-update.sample
+t/lib/repositories/recursive/other_bare.git/hooks/pre-applypatch.sample
+t/lib/repositories/recursive/other_bare.git/hooks/pre-commit.sample
+t/lib/repositories/recursive/other_bare.git/hooks/pre-rebase.sample
+t/lib/repositories/recursive/other_bare.git/hooks/prepare-commit-msg.sample
+t/lib/repositories/recursive/other_bare.git/hooks/update.sample
+t/lib/repositories/recursive/other_bare.git/info/exclude
 t/lib/repositories/repo1/config
 t/lib/repositories/repo1/description
 t/lib/repositories/repo1/export-ok
