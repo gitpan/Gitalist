@@ -1,8 +1,6 @@
 use MooseX::Declare;
 
-class Gitalist::Git::CollectionOfRepositories::FromDirectoryRecursive
-    with Gitalist::Git::CollectionOfRepositories {
-
+class Gitalist::Git::CollectionOfRepositories::FromDirectoryRecursive {
     use MooseX::Types::Common::String qw/NonEmptySimpleStr/;
     use MooseX::Types::Path::Class qw/Dir/;
 
@@ -15,6 +13,8 @@ class Gitalist::Git::CollectionOfRepositories::FromDirectoryRecursive
         required => 1,
         coerce => 1,
     );
+
+    method debug_string { 'repository directory ' . $self->repo_dir }
 
     method BUILD {
       # Make sure repo_dir is an absolute path so that ->contains() works correctly.
@@ -44,6 +44,7 @@ class Gitalist::Git::CollectionOfRepositories::FromDirectoryRecursive
         map { Gitalist::Git::Repository->new($_, $self->_get_repo_name("$_")) } $self->_find_repos( $self->repo_dir )
       ];
     }
+    with 'Gitalist::Git::CollectionOfRepositories';
 }                         # end class
 
 __END__

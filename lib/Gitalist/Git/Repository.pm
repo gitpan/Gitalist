@@ -5,14 +5,15 @@ class Gitalist::Git::Repository with (Gitalist::Git::HasUtils, Gitalist::Git::Se
 
     use MooseX::Types::Common::String qw/NonEmptySimpleStr/;
     use MooseX::Types::Moose          qw/Str Maybe Bool HashRef ArrayRef/;
-    use Gitalist::Git::Types          qw/SHA1 DateTime Dir/;
+    use Gitalist::Git::Types          qw/SHA1 Dir/;
+    use MooseX::Types::DateTime       qw/ DateTime /;
 
     use Moose::Autobox;
     use aliased 'DateTime' => 'DT';
     use List::MoreUtils qw/any zip/;
     use Encode          qw/decode/;
 
-    use if $^O ne 'MSWin32' => 'I18N::Langinfo', qw/langinfo CODESET/; 
+    use if $^O ne 'MSWin32' => 'I18N::Langinfo', qw/langinfo CODESET/;
 
     use Gitalist::Git::Object::Blob;
     use Gitalist::Git::Object::Tree;

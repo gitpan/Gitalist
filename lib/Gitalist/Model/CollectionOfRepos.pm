@@ -1,55 +1,51 @@
 package Gitalist::Model::CollectionOfRepos;
 
 use Moose;
-use Gitalist::Git::CollectionOfRepositories::FromDirectoryRecursive;
-use Gitalist::Git::CollectionOfRepositories::FromListOfDirectories;
-use Gitalist::Git::CollectionOfRepositories::FromDirectory::WhiteList;
-use MooseX::Types::Moose qw/Maybe ArrayRef/;
+use MooseX::Types::Moose qw/Undef Maybe ArrayRef Str/;
 use MooseX::Types::Common::String qw/NonEmptySimpleStr/;
+use MooseX::Types::LoadableClass qw/ LoadableClass /;
+use Gitalist::Git::Types qw/ ArrayRefOfDirs Dir DirOrUndef /;
 use Moose::Util::TypeConstraints;
 use Moose::Autobox;
+use Path::Class qw/ dir /;
 use namespace::autoclean;
+use Carp qw/croak/;
 
 extends 'Catalyst::Model';
 
-with 'Catalyst::Component::InstancePerContext';
-
-my $repo_dir_t = subtype NonEmptySimpleStr,
-    where { -d $_ },
-    message { 'Cannot find repository dir: "' . $_ . '", please set up gitalist.conf, or set GITALIST_REPO_DIR environment or pass the --repo_dir parameter when starting the application' };
-
-my $arrayof_repos_dir_t = subtype ArrayRef[$repo_dir_t],
-    where { 1 },
-    message { 'Cannot find repository directories listed in config - these are invalid directories: ' . join(', ', $_->flatten) };
-
-coerce $arrayof_repos_dir_t,
-    from NonEmptySimpleStr,
-    via { [ $_ ] };
-
-has config_repo_dir => (
-    isa => NonEmptySimpleStr,
-    is => 'ro',
-    init_arg => 'repo_dir',
-    predicate => 'has_config_repo_dir',
-);
-
-has repo_dir => (
-    isa => $repo_dir_t,
-    is => 'ro',
-    lazy_build => 1
-);
-
-has repos => (
-    isa => $arrayof_repos_dir_t,
-    is => 'ro',
-    default => sub { [] },
-    traits => ['Array'],
-    handles => {
-        _repos_count => 'count',
-    },
+has class => (
+    isa => LoadableClass,
+    is  => 'ro',
+    lazy => 1,
     coerce => 1,
+    builder => '_build_class',
 );
 
+sub _build_class {
+    my ($self) = @_;
+
+    if($self->whitelist && -f $self->whitelist) {
+        return 'Gitalist::Git::CollectionOfRepositories::FromDirectory::WhiteList';
+    }
+    elsif($self->search_recursively) {
+        return 'Gitalist::Git::CollectionOfRepositories::FromDirectoryRecursive';
+    }
+    elsif ($self->repos) {
+        return 'Gitalist::Git::CollectionOfRepositories::FromListOfDirectories';
+    }
+    elsif ($self->repo_dir) {
+        return 'Gitalist::Git::CollectionOfRepositories::FromDirectory';
+    }
+    else {
+        croak "Don't know where to get repositores from. Try a --repo_dir option, or setting up config";
+    }
+}
+
+has args => (
+    isa     => 'HashRef',
+    is      => 'ro',
+    default => sub { {} },
+);
 
 has search_recursively => (
     is      => 'ro',
@@ -57,6 +53,7 @@ has search_recursively => (
     default => 0,
 );
 
+## XX What is this for?
 has export_ok => (
     is  => 'ro',
     isa => 'Str',
@@ -65,45 +62,61 @@ has export_ok => (
 has whitelist => (
     is  => 'ro',
     isa => 'Str',
+    predicate => '_has_whitelist',
+);
+
+# Simple directory of repositories (for list)
+has repo_dir => (
+    is => 'ro',
+    isa => DirOrUndef,
+    coerce => 1,
+    builder => '_build_repo_dir',
+    lazy => 1,
+);
+
+# Directory containing list of one or more repositories
+has repos => (
+    is => 'ro',
+    isa => ArrayRefOfDirs,
+    coerce => 1,
 );
 
 sub _build_repo_dir {
     my $self = shift;
-    $ENV{GITALIST_REPO_DIR} ?
-        $ENV{GITALIST_REPO_DIR}
-      : $self->has_config_repo_dir
-      ? $self->config_repo_dir
-        : '';
+    return $ENV{GITALIST_REPO_DIR};
 }
 
-after BUILD => sub {
-    my $self = shift;
-    # Explode loudly at app startup time if there is no list of
-    # repositories or repos dir, rather than on first hit
-    $self->_repos_count || $self->repo_dir;
-};
+sub BUILD {
+    my($self) = @_;
 
-sub build_per_context_instance {
-    my ($self, $app) = @_;
+    $self->class();
 
-    my %args = (export_ok => $self->export_ok || '');
-    my $class;
-    if($self->whitelist && -f $self->whitelist) {
-        $class = 'Gitalist::Git::CollectionOfRepositories::FromDirectory::WhiteList';
-        $args{repo_dir}  = $self->repo_dir;
-        $args{whitelist} = $self->whitelist;
-    } elsif ($self->_repos_count && !$self->search_recursively) {
-        $class = 'Gitalist::Git::CollectionOfRepositories::FromListOfDirectories';
-        $args{repos} = $self->repos;
-    } elsif($self->search_recursively) {
-        $class = 'Gitalist::Git::CollectionOfRepositories::FromDirectoryRecursive';
-        $args{repo_dir} = $self->repo_dir;
-    } else {
-        $class = 'Gitalist::Git::CollectionOfRepositories::FromDirectory';
-        $args{repo_dir} = $self->repo_dir;
-    }
+    if ($self->repo_dir) { $self->repo_dir->resolve }
+}
 
-    return $class->new(%args);
+sub COMPONENT {
+    my($class, $ctx, @args) = @_;
+
+    my $self = $class->new($ctx, @args);
+
+    my %args = (
+        export_ok => $self->export_ok || '',
+        repos      => $self->repos,
+        repo_dir  => $self->repo_dir,
+        $self->_has_whitelist ? (whitelist => $self->whitelist) : (),
+        %{ $self->args }
+    );
+
+    my $model_class = $self->class;
+
+    $ctx->log->debug("Building $model_class with " . join(", ", map { $_ . " => " . (defined($args{$_}) ? "'" . $args{$_}  . "'" : 'undef') } keys %args))
+        if $ctx->debug;
+
+    my $model = $model_class->new(\%args);
+
+    $ctx->log->debug("Using class '$model_class' " . $model->debug_string) if $ctx->debug;
+
+    return $model;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -115,6 +128,24 @@ __END__
 =head1 NAME
 
 Gitalist::Model::CollectionOfRepos - Model::CollectionOfRepos module for Gitalist
+
+=head1 DESCRIPTION
+
+This Model is a factory for an object implementing the L<Gitalist::Git::CollectionOfRepositories>
+interface.
+
+The simple options passed on the command line (like C<--repo_dir>), a class will by picked by default 
+L<Gitalist::Git::CollectionOfRepositories::FromDirectory>.
+
+This can be overridden from config by explicitly passing in a class name and args for that class
+in config:
+
+    <Model::CollectionOfRepos>
+        class MyClassName
+        <args>
+            ...
+        </args>
+    </Model::CollectionOfRepos>
 
 =head1 AUTHORS
 

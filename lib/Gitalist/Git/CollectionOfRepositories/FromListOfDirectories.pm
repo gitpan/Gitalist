@@ -4,13 +4,15 @@ class Gitalist::Git::CollectionOfRepositories::FromListOfDirectories with Gitali
     use MooseX::Types::Common::String qw/NonEmptySimpleStr/;
     use MooseX::Types::Moose qw/ ArrayRef HashRef /;
     use MooseX::Types::Path::Class qw/Dir/;
+    use Gitalist::Git::Types qw/ ArrayRefOfDirs /;
     use File::Basename qw/basename/;
     use Path::Class qw/dir/;
     use Moose::Autobox;
 
     has repos => (
-        isa => ArrayRef[NonEmptySimpleStr],
+        isa => ArrayRefOfDirs,
         is => 'ro',
+        coerce => 1,
         required => 1,
     );
     has _repos_by_name => (
@@ -22,6 +24,8 @@ class Gitalist::Git::CollectionOfRepositories::FromListOfDirectories with Gitali
             _get_path_for_repository_name => 'get',
         },
     );
+
+    method debug_string { 'repository directories ' . join(" ", map { $_."" } $self->repos->flatten) }
 
     method _build__repos_by_name {
         +{ map { basename($_) => dir($_) } $self->repos->flatten };

@@ -1,7 +1,8 @@
 package Gitalist;
 use Moose;
 BEGIN { require 5.008006; }
-use Catalyst::Runtime 5.80;
+use Catalyst::Runtime 5.90006;
+use Gitalist::Git::Util;
 use namespace::autoclean;
 
 extends 'Catalyst';
@@ -14,7 +15,7 @@ use Catalyst qw/
                 SubRequest
 /;
 
-our $VERSION = '0.003006';
+our $VERSION = '0.003007';
 $VERSION = eval $VERSION;
 
 __PACKAGE__->config(
@@ -33,7 +34,7 @@ after prepare_path => sub {
     if ($ctx->req->param('a')) {
         $ctx->req->uri->path("/legacy$path");
     }
-    
+
     if($path =~ s/[.]json$// && $ctx->req->content_type eq 'application/json') {
         $ctx->req->uri->path($path);
     }
@@ -51,8 +52,14 @@ sub uri_with {
   my $uri = $self->request->uri_with(@args);
   # Wow this awful.
   $uri =~ s[/fragment\b][];
-  return $uri;  
+  return $uri;
 }
+
+after setup_finalize => sub {
+    # At app startup, ensure we can find a git binary, rather than
+    # lazily breaking later at request time.
+    Gitalist::Git::Util->new->_git; # FIXME - should not be a private method
+};
 
 1;
 
@@ -257,6 +264,18 @@ This is compatible with C<gitweb>'s C<projects.list>.
 
 If provided every must contain a file of the same name to be
 visible. This is similar to C<gitweb>'s functionality.
+
+=item class
+
+If you want a different way of surfacing repositories you can use your
+own model (i.e something that composes
+L<Gitalist::Git::CollectionOfRepositories>) and specify the class name with
+this config option.
+
+=item args
+
+Any additional arguments to be passed into the Model constructor, only
+of use when used in conjunction with C<class> (see above).
 
 =back
 

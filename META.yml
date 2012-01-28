@@ -25,7 +25,7 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.003006
+    version: 0.003007
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
   Gitalist::ContentMangler::Resolver:
@@ -62,6 +62,12 @@ provides:
     file: lib/Gitalist/Git/CollectionOfRepositories/FromDirectoryRecursive.pm
   Gitalist::Git::CollectionOfRepositories::FromListOfDirectories:
     file: lib/Gitalist/Git/CollectionOfRepositories/FromListOfDirectories.pm
+  Gitalist::Git::CollectionOfRepositories::Role::Context:
+    file: lib/Gitalist/Git/CollectionOfRepositories/Role/Context.pm
+  Gitalist::Git::CollectionOfRepositories::Vhost:
+    file: lib/Gitalist/Git/CollectionOfRepositories/Vhost.pm
+  Gitalist::Git::CollectionOfRepositoriesWithRequestState:
+    file: lib/Gitalist/Git/CollectionOfRepositoriesWithRequestState.pm
   Gitalist::Git::HasUtils:
     file: lib/Gitalist/Git/HasUtils.pm
   Gitalist::Git::Head:
@@ -92,14 +98,10 @@ provides:
     file: lib/Gitalist/Model/CollectionOfRepos.pm
   Gitalist::Model::ContentMangler:
     file: lib/Gitalist/Model/ContentMangler.pm
-  Gitalist::Script::CGI:
-    file: lib/Gitalist/Script/CGI.pm
-  Gitalist::Script::FastCGI:
-    file: lib/Gitalist/Script/FastCGI.pm
-  Gitalist::Script::Server:
-    file: lib/Gitalist/Script/Server.pm
-  Gitalist::ScriptRole:
-    file: lib/Gitalist/ScriptRole.pm
+  Gitalist::TraitFor::Script:
+    file: lib/Gitalist/TraitFor/Script.pm
+  Gitalist::TraitFor::Script::FastCGI:
+    file: lib/Gitalist/TraitFor/Script/FastCGI.pm
   Gitalist::URIStructure::Fragment::WithLog:
     file: lib/Gitalist/URIStructure/Fragment/WithLog.pm
   Gitalist::URIStructure::Ref:
@@ -125,7 +127,7 @@ requires:
   Catalyst::Plugin::Static::Simple: 0
   Catalyst::Plugin::SubRequest: 0.15
   Catalyst::Plugin::Unicode::Encoding: 0
-  Catalyst::Runtime: 5.8001402
+  Catalyst::Runtime: 5.90006
   Catalyst::View::Component::SubInclude: 0.07
   Catalyst::View::TT: 0.34
   Config::General: 0
@@ -146,6 +148,7 @@ requires:
   MooseX::Storage: 0
   MooseX::Types: 0
   MooseX::Types::Common: 0
+  MooseX::Types::DateTime: 0.05
   MooseX::Types::ISO8601: 0
   MooseX::Types::Path::Class: 0
   Path::Class: 0.17
@@ -161,4 +164,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.003006
+version: 0.003007

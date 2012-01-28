@@ -57,7 +57,7 @@ if ($ENV{GITALIST_RELEASE_TESTING}) {
     }, $FindBin::Bin . "/lib");
 }
 
-requires 'Catalyst::Runtime' => '5.8001402';
+requires 'Catalyst::Runtime' => '5.90006';
 requires 'Catalyst::Plugin::ConfigLoader';
 requires 'Catalyst::Plugin::StackTrace';
 requires 'Catalyst::Plugin::Static::Simple';
@@ -84,6 +84,7 @@ requires 'MooseX::Types';
 requires 'MooseX::Types::Common';
 requires 'MooseX::Types::Path::Class';
 requires 'MooseX::Types::ISO8601';
+requires 'MooseX::Types::DateTime' => '0.05';
 requires 'namespace::autoclean';
 
 requires 'Git::PurePerl' => '0.47';
