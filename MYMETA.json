@@ -84,13 +84,9 @@
       }
    },
    "provides" : {
-      "Fooey" : {
-         "file" : "lib/Fooey.pm",
-         "version" : 0
-      },
       "Gitalist" : {
          "file" : "lib/Gitalist.pm",
-         "version" : "0.003006"
+         "version" : "0.003007"
       },
       "Gitalist::ActionRole::FilenameArgs" : {
          "file" : "lib/Gitalist/ActionRole/FilenameArgs.pm",
@@ -285,5 +281,5 @@
          "url" : "git://git.shadowcat.co.uk/catagits/Gitalist.git"
       }
    },
-   "version" : "0.003006"
+   "version" : "0.003007"
 }

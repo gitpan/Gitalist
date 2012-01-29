@@ -23,12 +23,9 @@ no_index:
     - inc
     - t
 provides:
-  Fooey:
-    file: lib/Fooey.pm
-    version: 0
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.003006
+    version: 0.003007
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
     version: 0
@@ -212,4 +209,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.003006
+version: 0.003007
