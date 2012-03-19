@@ -4,15 +4,15 @@ author:
   - 'AND COPYRIGHT'
   - 'Dan Brook <broq@cpan.org>'
 build_requires:
-  ExtUtils::MakeMaker: 6.42
+  ExtUtils::MakeMaker: 6.36
   Test::Deep: 0.108
   Test::Exception: 0.31
   Test::More: 0.88
   Test::utf8: 0.02
 configure_requires:
-  ExtUtils::MakeMaker: 6.42
+  ExtUtils::MakeMaker: 6.36
 dynamic_config: 0
-generated_by: 'Module::Install version 1.01, CPAN::Meta::Converter version 2.112150'
+generated_by: 'Module::Install version 1.04, CPAN::Meta::Converter version 2.112150'
 license: unknown
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -22,145 +22,6 @@ no_index:
   directory:
     - inc
     - t
-provides:
-  Gitalist:
-    file: lib/Gitalist.pm
-    version: 0.003007
-  Gitalist::ActionRole::FilenameArgs:
-    file: lib/Gitalist/ActionRole/FilenameArgs.pm
-    version: 0
-  Gitalist::ContentMangler::Resolver:
-    file: lib/Gitalist/ContentMangler/Resolver.pm
-    version: 0
-  Gitalist::ContentMangler::Resolver::Default:
-    file: lib/Gitalist/ContentMangler/Resolver/Default.pm
-    version: 0
-  Gitalist::ContentMangler::Transformer::SyntaxHighlight:
-    file: lib/Gitalist/ContentMangler/Transformer/SyntaxHighlight.pm
-    version: 0
-  Gitalist::Controller:
-    file: lib/Gitalist/Controller.pm
-    version: 0
-  Gitalist::Controller::Fragment:
-    file: lib/Gitalist/Controller/Fragment.pm
-    version: 0
-  Gitalist::Controller::Fragment::Ref:
-    file: lib/Gitalist/Controller/Fragment/Ref.pm
-    version: 0
-  Gitalist::Controller::Fragment::Repository:
-    file: lib/Gitalist/Controller/Fragment/Repository.pm
-    version: 0
-  Gitalist::Controller::LegacyURI:
-    file: lib/Gitalist/Controller/LegacyURI.pm
-    version: 0
-  Gitalist::Controller::OPML:
-    file: lib/Gitalist/Controller/OPML.pm
-    version: 0
-  Gitalist::Controller::Ref:
-    file: lib/Gitalist/Controller/Ref.pm
-    version: 0
-  Gitalist::Controller::Repository:
-    file: lib/Gitalist/Controller/Repository.pm
-    version: 0
-  Gitalist::Controller::Root:
-    file: lib/Gitalist/Controller/Root.pm
-    version: 0
-  Gitalist::Git::CollectionOfRepositories:
-    file: lib/Gitalist/Git/CollectionOfRepositories.pm
-    version: 0
-  Gitalist::Git::CollectionOfRepositories::FromDirectory:
-    file: lib/Gitalist/Git/CollectionOfRepositories/FromDirectory.pm
-    version: 0
-  Gitalist::Git::CollectionOfRepositories::FromDirectory::WhiteList:
-    file: lib/Gitalist/Git/CollectionOfRepositories/FromDirectory/WhiteList.pm
-    version: 0
-  Gitalist::Git::CollectionOfRepositories::FromDirectoryRecursive:
-    file: lib/Gitalist/Git/CollectionOfRepositories/FromDirectoryRecursive.pm
-    version: 0
-  Gitalist::Git::CollectionOfRepositories::FromListOfDirectories:
-    file: lib/Gitalist/Git/CollectionOfRepositories/FromListOfDirectories.pm
-    version: 0
-  Gitalist::Git::CollectionOfRepositories::Role::Context:
-    file: lib/Gitalist/Git/CollectionOfRepositories/Role/Context.pm
-    version: 0
-  Gitalist::Git::CollectionOfRepositories::Vhost:
-    file: lib/Gitalist/Git/CollectionOfRepositories/Vhost.pm
-    version: 0
-  Gitalist::Git::CollectionOfRepositoriesWithRequestState:
-    file: lib/Gitalist/Git/CollectionOfRepositoriesWithRequestState.pm
-    version: 0
-  Gitalist::Git::HasUtils:
-    file: lib/Gitalist/Git/HasUtils.pm
-    version: 0
-  Gitalist::Git::Head:
-    file: lib/Gitalist/Git/Head.pm
-    version: 0
-  Gitalist::Git::Object:
-    file: lib/Gitalist/Git/Object.pm
-    version: 0
-  Gitalist::Git::Object::Blob:
-    file: lib/Gitalist/Git/Object/Blob.pm
-    version: 0
-  Gitalist::Git::Object::Commit:
-    file: lib/Gitalist/Git/Object/Commit.pm
-    version: 0
-  Gitalist::Git::Object::HasTree:
-    file: lib/Gitalist/Git/Object/HasTree.pm
-    version: 0
-  Gitalist::Git::Object::Tag:
-    file: lib/Gitalist/Git/Object/Tag.pm
-    version: 0
-  Gitalist::Git::Object::Tree:
-    file: lib/Gitalist/Git/Object/Tree.pm
-    version: 0
-  Gitalist::Git::Repository:
-    file: lib/Gitalist/Git/Repository.pm
-    version: 0
-  Gitalist::Git::Serializable:
-    file: lib/Gitalist/Git/Serializable.pm
-    version: 0
-  Gitalist::Git::Tag:
-    file: lib/Gitalist/Git/Tag.pm
-    version: 0
-  Gitalist::Git::Types:
-    file: lib/Gitalist/Git/Types.pm
-    version: 0
-  Gitalist::Git::Util:
-    file: lib/Gitalist/Git/Util.pm
-    version: 0
-  Gitalist::Model::CollectionOfRepos:
-    file: lib/Gitalist/Model/CollectionOfRepos.pm
-    version: 0
-  Gitalist::Model::ContentMangler:
-    file: lib/Gitalist/Model/ContentMangler.pm
-    version: 0
-  Gitalist::TraitFor::Script:
-    file: lib/Gitalist/TraitFor/Script.pm
-    version: 0
-  Gitalist::TraitFor::Script::FastCGI:
-    file: lib/Gitalist/TraitFor/Script/FastCGI.pm
-    version: 0
-  Gitalist::URIStructure::Fragment::WithLog:
-    file: lib/Gitalist/URIStructure/Fragment/WithLog.pm
-    version: 0
-  Gitalist::URIStructure::Ref:
-    file: lib/Gitalist/URIStructure/Ref.pm
-    version: 0
-  Gitalist::URIStructure::Repository:
-    file: lib/Gitalist/URIStructure/Repository.pm
-    version: 0
-  Gitalist::URIStructure::WithLog:
-    file: lib/Gitalist/URIStructure/WithLog.pm
-    version: 0
-  Gitalist::Utils:
-    file: lib/Gitalist/Utils.pm
-    version: 0
-  Gitalist::View::Default:
-    file: lib/Gitalist/View/Default.pm
-    version: 0
-  Gitalist::View::SyntaxHighlight:
-    file: lib/Gitalist/View/SyntaxHighlight.pm
-    version: 0
 requires:
   CGI: 0
   Catalyst::Action::REST: 0
@@ -194,7 +55,6 @@ requires:
   MooseX::Types: 0
   MooseX::Types::Common: 0
   MooseX::Types::DateTime: 0.05
-  MooseX::Types::ISO8601: 0
   MooseX::Types::Path::Class: 0
   Path::Class: 0.17
   Syntax::Highlight::Engine::Kate: 0
@@ -209,4 +69,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.003007
+version: 0.003008

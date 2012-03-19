@@ -4,15 +4,16 @@ author:
   - 'AND COPYRIGHT'
   - 'Dan Brook <broq@cpan.org>'
 build_requires:
-  ExtUtils::MakeMaker: 6.42
+  ExtUtils::MakeMaker: 6.36
   Test::Deep: 0.108
   Test::Exception: 0.31
   Test::More: 0.88
   Test::utf8: 0.02
 configure_requires:
-  ExtUtils::MakeMaker: 6.42
+  ExtUtils::MakeMaker: 6.36
 distribution_type: module
-generated_by: 'Module::Install version 1.01'
+dynamic_config: 1
+generated_by: 'Module::Install version 1.04'
 license: gpl2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -25,7 +26,7 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.003008
+    version: 0.003009
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
   Gitalist::ContentMangler::Resolver:
@@ -149,7 +150,6 @@ requires:
   MooseX::Types: 0
   MooseX::Types::Common: 0
   MooseX::Types::DateTime: 0.05
-  MooseX::Types::ISO8601: 0
   MooseX::Types::Path::Class: 0
   Path::Class: 0.17
   Syntax::Highlight::Engine::Kate: 0
@@ -164,4 +164,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.003008
+version: 0.003009
