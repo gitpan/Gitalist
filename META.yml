@@ -13,7 +13,7 @@ configure_requires:
   ExtUtils::MakeMaker: 6.36
 distribution_type: module
 dynamic_config: 1
-generated_by: 'Module::Install version 1.04'
+generated_by: 'Module::Install version 1.06'
 license: gpl2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -26,7 +26,7 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.003009
+    version: 0.004001
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
   Gitalist::ContentMangler::Resolver:
@@ -122,13 +122,12 @@ requires:
   Catalyst::Action::REST: 0
   Catalyst::Action::RenderView: 0
   Catalyst::Component::InstancePerContext: 0
-  Catalyst::Controller::ActionRole: 0
   Catalyst::Plugin::ConfigLoader: 0
   Catalyst::Plugin::StackTrace: 0
   Catalyst::Plugin::Static::Simple: 0
   Catalyst::Plugin::SubRequest: 0.15
   Catalyst::Plugin::Unicode::Encoding: 0
-  Catalyst::Runtime: 5.90006
+  Catalyst::Runtime: 5.90013
   Catalyst::View::Component::SubInclude: 0.07
   Catalyst::View::TT: 0.34
   Config::General: 0
@@ -150,6 +149,7 @@ requires:
   MooseX::Types: 0
   MooseX::Types::Common: 0
   MooseX::Types::DateTime: 0.05
+  MooseX::Types::LoadableClass: 0
   MooseX::Types::Path::Class: 0
   Path::Class: 0.17
   Syntax::Highlight::Engine::Kate: 0
@@ -164,4 +164,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.003009
+version: 0.004001

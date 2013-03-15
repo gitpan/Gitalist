@@ -1,5 +1,6 @@
 Changes
 gitalist.conf
+gitalist.psgi
 inc/File/Copy/Recursive.pm
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
@@ -160,7 +161,6 @@ root/static/i/logo.png
 root/static/js/jquery.min.js
 root/static/js/site.js
 root/wrapper.tt2
-script/gitalist.fcgi
 script/gitalist_app.psgi
 script/gitalist_cgi.pl
 script/gitalist_create.pl
