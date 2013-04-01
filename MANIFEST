@@ -1,6 +1,5 @@
 Changes
 gitalist.conf
-gitalist.psgi
 inc/File/Copy/Recursive.pm
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
@@ -126,7 +125,7 @@ root/search.tt2
 root/search_help.tt2
 root/static/css/core.css
 root/static/css/syntax/Diff.css
-root/static/css/syntax/Perl.css
+root/static/css/syntax/Code.css
 root/static/favicon.ico
 root/static/git-favicon.png
 root/static/i/arrow_down_white.gif
