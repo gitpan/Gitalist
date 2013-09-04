@@ -124,8 +124,8 @@ root/repository/tags.tt2
 root/search.tt2
 root/search_help.tt2
 root/static/css/core.css
-root/static/css/syntax/Diff.css
 root/static/css/syntax/Code.css
+root/static/css/syntax/Diff.css
 root/static/favicon.ico
 root/static/git-favicon.png
 root/static/i/arrow_down_white.gif
@@ -198,6 +198,10 @@ t/lib/repositories/bare.git/hooks/pre-rebase.sample
 t/lib/repositories/bare.git/hooks/prepare-commit-msg.sample
 t/lib/repositories/bare.git/hooks/update.sample
 t/lib/repositories/bare.git/info/exclude
+t/lib/repositories/bare.git/objects/14/d4a45fe754bb3050e30b9395e93141e4fe9966
+t/lib/repositories/bare.git/objects/6f/ed92d478142d92f155adbcfa0d368cf926b890
+t/lib/repositories/bare.git/objects/e0/1ab12f8706746dc92e9901ee555984c9597693
+t/lib/repositories/bare.git/packed-refs
 t/lib/repositories/empty.git/README
 t/lib/repositories/file
 t/lib/repositories/nodescription/config
