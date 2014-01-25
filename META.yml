@@ -26,7 +26,7 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.004003
+    version: 0.004004
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
   Gitalist::ContentMangler::Resolver:
@@ -130,6 +130,7 @@ requires:
   Catalyst::Runtime: 5.90013
   Catalyst::View::Component::SubInclude: 0.07
   Catalyst::View::TT: 0.34
+  Class::Load: 0.20
   Config::General: 0
   DateTime: 0
   File::Copy::Recursive: 0
@@ -164,4 +165,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.004003
+version: 0.004004
