@@ -5,10 +5,8 @@ author:
   - 'Dan Brook <broq@cpan.org>'
 build_requires:
   ExtUtils::MakeMaker: 6.36
-  Test::Deep: 0.108
   Test::Exception: 0.31
   Test::More: 0.88
-  Test::utf8: 0.02
 configure_requires:
   ExtUtils::MakeMaker: 6.36
 distribution_type: module
@@ -26,7 +24,7 @@ no_index:
 provides:
   Gitalist:
     file: lib/Gitalist.pm
-    version: 0.004004
+    version: 0.005000_01
   Gitalist::ActionRole::FilenameArgs:
     file: lib/Gitalist/ActionRole/FilenameArgs.pm
   Gitalist::ContentMangler::Resolver:
@@ -69,32 +67,8 @@ provides:
     file: lib/Gitalist/Git/CollectionOfRepositories/Vhost.pm
   Gitalist::Git::CollectionOfRepositoriesWithRequestState:
     file: lib/Gitalist/Git/CollectionOfRepositoriesWithRequestState.pm
-  Gitalist::Git::HasUtils:
-    file: lib/Gitalist/Git/HasUtils.pm
-  Gitalist::Git::Head:
-    file: lib/Gitalist/Git/Head.pm
-  Gitalist::Git::Object:
-    file: lib/Gitalist/Git/Object.pm
-  Gitalist::Git::Object::Blob:
-    file: lib/Gitalist/Git/Object/Blob.pm
-  Gitalist::Git::Object::Commit:
-    file: lib/Gitalist/Git/Object/Commit.pm
-  Gitalist::Git::Object::HasTree:
-    file: lib/Gitalist/Git/Object/HasTree.pm
-  Gitalist::Git::Object::Tag:
-    file: lib/Gitalist/Git/Object/Tag.pm
-  Gitalist::Git::Object::Tree:
-    file: lib/Gitalist/Git/Object/Tree.pm
-  Gitalist::Git::Repository:
-    file: lib/Gitalist/Git/Repository.pm
-  Gitalist::Git::Serializable:
-    file: lib/Gitalist/Git/Serializable.pm
-  Gitalist::Git::Tag:
-    file: lib/Gitalist/Git/Tag.pm
   Gitalist::Git::Types:
     file: lib/Gitalist/Git/Types.pm
-  Gitalist::Git::Util:
-    file: lib/Gitalist/Git/Util.pm
   Gitalist::Model::CollectionOfRepos:
     file: lib/Gitalist/Model/CollectionOfRepos.pm
   Gitalist::Model::ContentMangler:
@@ -136,13 +110,11 @@ requires:
   File::Copy::Recursive: 0
   File::Type: 0
   File::Type::WebImages: 0
-  File::Which: 0
-  Git::PurePerl: 0.47
+  Git::Gitalist: 0.000001
   HTML::Entities: 0
   IPC::Run: 0
   JSON: 0
   JSON::XS: 0
-  List::MoreUtils: 0
   Moose: 0
   Moose::Autobox: 0
   MooseX::Declare: 0.32
@@ -165,4 +137,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist
   license: http://opensource.org/licenses/gpl-2.0.php
   repository: git://git.shadowcat.co.uk/catagits/Gitalist.git
-version: 0.004004
+version: 0.005000_01

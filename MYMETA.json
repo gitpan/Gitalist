@@ -24,10 +24,8 @@
       "build" : {
          "requires" : {
             "ExtUtils::MakeMaker" : "6.36",
-            "Test::Deep" : "0.108",
             "Test::Exception" : "0.31",
-            "Test::More" : "0.88",
-            "Test::utf8" : "0.02"
+            "Test::More" : "0.88"
          }
       },
       "configure" : {
@@ -55,13 +53,11 @@
             "File::Copy::Recursive" : "0",
             "File::Type" : "0",
             "File::Type::WebImages" : "0",
-            "File::Which" : "0",
-            "Git::PurePerl" : "0.47",
+            "Git::Gitalist" : "0.000001",
             "HTML::Entities" : "0",
             "IPC::Run" : "0",
             "JSON" : "0",
             "JSON::XS" : "0",
-            "List::MoreUtils" : "0",
             "Moose" : "0",
             "Moose::Autobox" : "0",
             "MooseX::Declare" : "0.32",
@@ -86,7 +82,7 @@
    "provides" : {
       "Gitalist" : {
          "file" : "lib/Gitalist.pm",
-         "version" : "0.004004"
+         "version" : "0.005000_01"
       },
       "Gitalist::ActionRole::FilenameArgs" : {
          "file" : "lib/Gitalist/ActionRole/FilenameArgs.pm",
@@ -172,56 +168,8 @@
          "file" : "lib/Gitalist/Git/CollectionOfRepositoriesWithRequestState.pm",
          "version" : "0"
       },
-      "Gitalist::Git::HasUtils" : {
-         "file" : "lib/Gitalist/Git/HasUtils.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::Head" : {
-         "file" : "lib/Gitalist/Git/Head.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::Object" : {
-         "file" : "lib/Gitalist/Git/Object.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::Object::Blob" : {
-         "file" : "lib/Gitalist/Git/Object/Blob.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::Object::Commit" : {
-         "file" : "lib/Gitalist/Git/Object/Commit.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::Object::HasTree" : {
-         "file" : "lib/Gitalist/Git/Object/HasTree.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::Object::Tag" : {
-         "file" : "lib/Gitalist/Git/Object/Tag.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::Object::Tree" : {
-         "file" : "lib/Gitalist/Git/Object/Tree.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::Repository" : {
-         "file" : "lib/Gitalist/Git/Repository.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::Serializable" : {
-         "file" : "lib/Gitalist/Git/Serializable.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::Tag" : {
-         "file" : "lib/Gitalist/Git/Tag.pm",
-         "version" : "0"
-      },
       "Gitalist::Git::Types" : {
          "file" : "lib/Gitalist/Git/Types.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::Util" : {
-         "file" : "lib/Gitalist/Git/Util.pm",
          "version" : "0"
       },
       "Gitalist::Model::CollectionOfRepos" : {
@@ -269,7 +217,7 @@
          "version" : "0"
       }
    },
-   "release_status" : "stable",
+   "release_status" : "testing",
    "resources" : {
       "bugtracker" : {
          "web" : "http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist"
@@ -282,5 +230,5 @@
          "url" : "git://git.shadowcat.co.uk/catagits/Gitalist.git"
       }
    },
-   "version" : "0.004004"
+   "version" : "0.005000_01"
 }

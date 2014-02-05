@@ -1,12 +1,14 @@
 package Gitalist;
-use Moose;
+
 BEGIN { require 5.008006; }
-use Catalyst::Runtime 5.90006;
-use Gitalist::Git::Util;
-use namespace::autoclean;
+
+use Moose;
 
 extends 'Catalyst';
 
+use Git::Gitalist::Util;
+
+use Catalyst::Runtime 5.90006;
 use Catalyst qw/
                 ConfigLoader
                 Unicode::Encoding
@@ -15,12 +17,14 @@ use Catalyst qw/
                 SubRequest
 /;
 
-our $VERSION = '0.004004';
+use namespace::autoclean;
+
+our $VERSION = '0.005000_01';
 $VERSION = eval $VERSION;
 
 __PACKAGE__->config(
-    name => 'Gitalist',
-    default_view => 'Default',
+    name          => 'Gitalist',
+    default_view  => 'Default',
     default_model => 'CollectionOfRepos',
     use_request_uri_for_path => 1,
     disable_component_resolution_regex_fallback => 1,
@@ -58,7 +62,12 @@ sub uri_with {
 after setup_finalize => sub {
     # At app startup, ensure we can find a git binary, rather than
     # lazily breaking later at request time.
-    Gitalist::Git::Util->new->_git; # FIXME - should not be a private method
+    Git::Gitalist::Util::git_executable_path()
+      or die <<ERR;
+No git executable found in PATH.
+Please specify which git executable to use in gitalist.conf or ensure that
+a git executable is reachable in the PATH environment variable.
+ERR
 };
 
 1;
@@ -356,7 +365,7 @@ we plan to go with the project.
 
 L<Gitalist::Controller::Root>
 
-L<Gitalist::Git::Repository>
+L<Git::Gitalist::Repository>
 
 L<Catalyst>
 
