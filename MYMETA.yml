@@ -61,4 +61,4 @@ requires:
   Try::Tiny: 0
   aliased: 0
   namespace::autoclean: 0
-version: 0.005000
+version: 0.005001
