@@ -1,11 +1,10 @@
 {
    "abstract" : "A modern git web viewer",
    "author" : [
-      "AND COPYRIGHT",
-      "Dan Brook <broq@cpan.org>"
+      "AND COPYRIGHT, Dan Brook <broq@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Module::Install version 1.06, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "ExtUtils::MakeMaker version 6.64, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "unknown"
    ],
@@ -16,8 +15,8 @@
    "name" : "Gitalist",
    "no_index" : {
       "directory" : [
-         "inc",
-         "t"
+         "t",
+         "inc"
       ]
    },
    "prereqs" : {
@@ -30,7 +29,7 @@
       },
       "configure" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "6.36"
+            "ExtUtils::MakeMaker" : "0"
          }
       },
       "runtime" : {
@@ -53,7 +52,7 @@
             "File::Copy::Recursive" : "0",
             "File::Type" : "0",
             "File::Type::WebImages" : "0",
-            "Git::Gitalist" : "0.000001",
+            "Git::Gitalist" : "0.000002",
             "HTML::Entities" : "0",
             "IPC::Run" : "0",
             "JSON" : "0",
@@ -79,156 +78,6 @@
          }
       }
    },
-   "provides" : {
-      "Gitalist" : {
-         "file" : "lib/Gitalist.pm",
-         "version" : "0.005000_01"
-      },
-      "Gitalist::ActionRole::FilenameArgs" : {
-         "file" : "lib/Gitalist/ActionRole/FilenameArgs.pm",
-         "version" : "0"
-      },
-      "Gitalist::ContentMangler::Resolver" : {
-         "file" : "lib/Gitalist/ContentMangler/Resolver.pm",
-         "version" : "0"
-      },
-      "Gitalist::ContentMangler::Resolver::Default" : {
-         "file" : "lib/Gitalist/ContentMangler/Resolver/Default.pm",
-         "version" : "0"
-      },
-      "Gitalist::ContentMangler::Transformer::SyntaxHighlight" : {
-         "file" : "lib/Gitalist/ContentMangler/Transformer/SyntaxHighlight.pm",
-         "version" : "0"
-      },
-      "Gitalist::Controller" : {
-         "file" : "lib/Gitalist/Controller.pm",
-         "version" : "0"
-      },
-      "Gitalist::Controller::Fragment" : {
-         "file" : "lib/Gitalist/Controller/Fragment.pm",
-         "version" : "0"
-      },
-      "Gitalist::Controller::Fragment::Ref" : {
-         "file" : "lib/Gitalist/Controller/Fragment/Ref.pm",
-         "version" : "0"
-      },
-      "Gitalist::Controller::Fragment::Repository" : {
-         "file" : "lib/Gitalist/Controller/Fragment/Repository.pm",
-         "version" : "0"
-      },
-      "Gitalist::Controller::LegacyURI" : {
-         "file" : "lib/Gitalist/Controller/LegacyURI.pm",
-         "version" : "0"
-      },
-      "Gitalist::Controller::OPML" : {
-         "file" : "lib/Gitalist/Controller/OPML.pm",
-         "version" : "0"
-      },
-      "Gitalist::Controller::Ref" : {
-         "file" : "lib/Gitalist/Controller/Ref.pm",
-         "version" : "0"
-      },
-      "Gitalist::Controller::Repository" : {
-         "file" : "lib/Gitalist/Controller/Repository.pm",
-         "version" : "0"
-      },
-      "Gitalist::Controller::Root" : {
-         "file" : "lib/Gitalist/Controller/Root.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::CollectionOfRepositories" : {
-         "file" : "lib/Gitalist/Git/CollectionOfRepositories.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::CollectionOfRepositories::FromDirectory" : {
-         "file" : "lib/Gitalist/Git/CollectionOfRepositories/FromDirectory.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::CollectionOfRepositories::FromDirectory::WhiteList" : {
-         "file" : "lib/Gitalist/Git/CollectionOfRepositories/FromDirectory/WhiteList.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::CollectionOfRepositories::FromDirectoryRecursive" : {
-         "file" : "lib/Gitalist/Git/CollectionOfRepositories/FromDirectoryRecursive.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::CollectionOfRepositories::FromListOfDirectories" : {
-         "file" : "lib/Gitalist/Git/CollectionOfRepositories/FromListOfDirectories.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::CollectionOfRepositories::Role::Context" : {
-         "file" : "lib/Gitalist/Git/CollectionOfRepositories/Role/Context.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::CollectionOfRepositories::Vhost" : {
-         "file" : "lib/Gitalist/Git/CollectionOfRepositories/Vhost.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::CollectionOfRepositoriesWithRequestState" : {
-         "file" : "lib/Gitalist/Git/CollectionOfRepositoriesWithRequestState.pm",
-         "version" : "0"
-      },
-      "Gitalist::Git::Types" : {
-         "file" : "lib/Gitalist/Git/Types.pm",
-         "version" : "0"
-      },
-      "Gitalist::Model::CollectionOfRepos" : {
-         "file" : "lib/Gitalist/Model/CollectionOfRepos.pm",
-         "version" : "0"
-      },
-      "Gitalist::Model::ContentMangler" : {
-         "file" : "lib/Gitalist/Model/ContentMangler.pm",
-         "version" : "0"
-      },
-      "Gitalist::TraitFor::Script" : {
-         "file" : "lib/Gitalist/TraitFor/Script.pm",
-         "version" : "0"
-      },
-      "Gitalist::TraitFor::Script::FastCGI" : {
-         "file" : "lib/Gitalist/TraitFor/Script/FastCGI.pm",
-         "version" : "0"
-      },
-      "Gitalist::URIStructure::Fragment::WithLog" : {
-         "file" : "lib/Gitalist/URIStructure/Fragment/WithLog.pm",
-         "version" : "0"
-      },
-      "Gitalist::URIStructure::Ref" : {
-         "file" : "lib/Gitalist/URIStructure/Ref.pm",
-         "version" : "0"
-      },
-      "Gitalist::URIStructure::Repository" : {
-         "file" : "lib/Gitalist/URIStructure/Repository.pm",
-         "version" : "0"
-      },
-      "Gitalist::URIStructure::WithLog" : {
-         "file" : "lib/Gitalist/URIStructure/WithLog.pm",
-         "version" : "0"
-      },
-      "Gitalist::Utils" : {
-         "file" : "lib/Gitalist/Utils.pm",
-         "version" : "0"
-      },
-      "Gitalist::View::Default" : {
-         "file" : "lib/Gitalist/View/Default.pm",
-         "version" : "0"
-      },
-      "Gitalist::View::SyntaxHighlight" : {
-         "file" : "lib/Gitalist/View/SyntaxHighlight.pm",
-         "version" : "0"
-      }
-   },
-   "release_status" : "testing",
-   "resources" : {
-      "bugtracker" : {
-         "web" : "http://rt.cpan.org/Public/Dist/Display.html?Name=Gitalist"
-      },
-      "license" : [
-         "http://opensource.org/licenses/gpl-2.0.php"
-      ],
-      "repository" : {
-         "type" : "git",
-         "url" : "git://git.shadowcat.co.uk/catagits/Gitalist.git"
-      }
-   },
-   "version" : "0.005000_01"
+   "release_status" : "stable",
+   "version" : "0.005000"
 }
